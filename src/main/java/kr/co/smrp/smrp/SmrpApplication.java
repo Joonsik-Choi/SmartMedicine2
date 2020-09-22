@@ -8,6 +8,7 @@ public class SmrpApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SmrpApplication.class, args);
+		System.out.println("dd");
 	}
 
 }
