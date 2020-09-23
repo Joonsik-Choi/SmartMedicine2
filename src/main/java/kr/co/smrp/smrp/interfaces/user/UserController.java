@@ -1,6 +1,7 @@
 package kr.co.smrp.smrp.interfaces.user;
 
 import kr.co.smrp.smrp.application.user.UserService;
+import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.user.JoinUserAskDto;
 import kr.co.smrp.smrp.dto.user.UserDto;
 import kr.co.smrp.smrp.dto.user.UserIdPwDto;
@@ -16,13 +17,12 @@ public class UserController {
             return userService.add(joinUserAskDto);
     }
     @PostMapping({"/user/login"})
-    public String login(@RequestBody UserIdPwDto userIdPwDto) {
-        String s= userService.login(userIdPwDto);
-        return s;
+    public Message login(@RequestBody UserIdPwDto userIdPwDto) {
+        return userService.login(userIdPwDto);
     }
 
     @GetMapping({"user/findId"})
-    public String findId(@RequestParam String userId) {
+    public Message findId(@RequestParam String userId) {
         return userService.findId(userId);
     }
 
