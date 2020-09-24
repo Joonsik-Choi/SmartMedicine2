@@ -21,11 +21,11 @@ public class MedicineEffect {
     @JoinColumn(name = "MEDICINE_ID")
     private MedicineInfo medicineInfo;
     @Lob
-    private java.lang.String effect;
+    private String effect;
     @Lob
-    private java.lang.String usageCapacity;
+    private String usageCapacity;
     @Lob
-    private java.lang.String precautions;
+    private String precautions;
 
    
 }

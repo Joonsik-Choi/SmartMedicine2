@@ -14,7 +14,7 @@ public class MedicineInfo {
     @Id
     @GeneratedValue
     @Column(name = "MEDICINE_ID")
-    private  Long Id;
+    private  Long id;
     private  String itemSeq;
     private  String itemName;
     private  String entpSeq;

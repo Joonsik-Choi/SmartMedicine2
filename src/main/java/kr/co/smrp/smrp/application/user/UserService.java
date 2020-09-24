@@ -17,9 +17,9 @@ public class UserService {
     public UserService(UserInfoRepository userInfoRepository){
         this.userInfoRepository=userInfoRepository;
     }
-    public String add(JoinUserAskDto joinUserAskDto) {
+    public Message join(JoinUserAskDto joinUserAskDto) {
         UserInfo userInfo= userInfoRepository.save(joinUserAskDto.toEntity());
-        return "ok";
+        return Message.builder().resultCode(ResultCode.OK).build();
     }
 
     public Message login(UserIdPwDto userIdPwDto) {

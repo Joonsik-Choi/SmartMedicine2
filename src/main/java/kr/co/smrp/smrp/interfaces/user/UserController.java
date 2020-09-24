@@ -13,8 +13,8 @@ public class UserController {
     @Autowired
    private UserService userService;
     @PostMapping("/user/join")
-    public String join(@RequestBody JoinUserAskDto joinUserAskDto) {
-            return userService.add(joinUserAskDto);
+    public Message join(@RequestBody JoinUserAskDto joinUserAskDto) {
+            return userService.join(joinUserAskDto);
     }
     @PostMapping({"/user/login"})
     public Message login(@RequestBody UserIdPwDto userIdPwDto) {
