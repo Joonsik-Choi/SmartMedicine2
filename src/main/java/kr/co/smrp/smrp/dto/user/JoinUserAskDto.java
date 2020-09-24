@@ -32,7 +32,7 @@ public class JoinUserAskDto {
                         .userId(id)
                         .email(email)
                         .userPw(password)
-                        .birth(LocalDate.parse(birth, DateTimeFormatter.ofPattern("yyMMdd")))
+                        .birth(LocalDate.parse(birth, DateTimeFormatter.ofPattern("yyyyMMdd")))
                         .name(name)
                         .gender(gender)
                         .createdAt(LocalDateTime.now())
