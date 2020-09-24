@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Builder
@@ -16,7 +17,7 @@ public class JoinUserAskDto {
     private String id;
     private String email;
     private String password;
-    private LocalDate birth;
+    private String birth;
     private String name;
     private Gender gender;
 
@@ -25,7 +26,7 @@ public class JoinUserAskDto {
                         .userId(id)
                         .email(email)
                         .userPw(password)
-                        .birth(birth)
+                        .birth(LocalDate.parse(birth, DateTimeFormatter.ofPattern("yyyyMMdd")))
                         .name(name)
                         .gender(gender)
                         .createdAt(LocalDateTime.now())

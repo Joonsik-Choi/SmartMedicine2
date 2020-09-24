@@ -21,8 +21,8 @@ public class RegMedicine {
       @Id
       @GeneratedValue
       @Column(name = "REGISTER_ID")
-    private java.lang.Long id;
-      @Enumerated(javax.persistence.EnumType.STRING)
+    private Long id;
+      @Enumerated(EnumType.STRING)
       @Column(name = "STATE")
     private BooleanType state;
       @ManyToOne
