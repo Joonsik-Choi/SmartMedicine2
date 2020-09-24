@@ -22,6 +22,12 @@ public class JoinUserAskDto {
     private Gender gender;
 
     public UserInfo toEntity() {
+        String year=birth.substring(0,2);
+        if(Integer.parseInt(year)<40)
+            birth="20"+birth;
+        else
+            birth="19"+birth;
+        System.err.println();
         return UserInfo.builder()
                         .userId(id)
                         .email(email)
