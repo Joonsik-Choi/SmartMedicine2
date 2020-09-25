@@ -3,7 +3,6 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
 }
-
 group = 'kr.co.smrp'
 version = '0.0.3-SNAPSHOT'
 sourceCompatibility = '11'
@@ -13,12 +12,11 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-
 repositories {
 	mavenCentral()
 }
-
 dependencies {
+	implementation('org.postgresql:postgresql')
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -31,7 +29,6 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
-
 test {
 	useJUnitPlatform()
 }
