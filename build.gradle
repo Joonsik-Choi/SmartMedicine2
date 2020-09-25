@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 group = 'kr.co.smrp'
-version = 'SmartMedicine2.0.0.4'
+version = '0.0.4-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
