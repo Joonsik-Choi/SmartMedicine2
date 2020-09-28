@@ -49,8 +49,8 @@ public class MedicineInfoController {
         return medicineInfoService.getEffect1111(itemSeqs);
     }
 
-    @GetMapping("/medicine/transfer")
-    public String transferEffect() throws IOException {
-        return medicineInfoService.transferEffect();
+    @PostMapping("/medicine/transfer")
+    public String transferEffect(@RequestBody ArrayList<MedicineEffectTransfer> medicineEffectTransfer) throws IOException {
+        return medicineInfoService.transferEffect(medicineEffectTransfer);
     }
 }

@@ -12,7 +12,6 @@ import org.apache.pdfbox.util.PDFTextStripper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,7 @@ public class MedicineInfoService {
       ArrayList<String> formula=conMedicineAskDto.getFormula();
       ArrayList<String> color=conMedicineAskDto.getColor();
       ArrayList<String> shape=conMedicineAskDto.getShape();
+      System.out.println(num);
       switch (num){
           case "0000":
               medicineInfos=medicineInfoRepository.findMethod0(itemName);
@@ -164,24 +164,26 @@ public class MedicineInfoService {
         }
         return "ok";
     }
-    public String transferEffect() throws IOException {
-        ArrayList<MedicineEffect> medicineEffects= (ArrayList<MedicineEffect>) medicineEffectRepository.findAll();
-        for(MedicineEffect medicineEffect :medicineEffects){
-       // MedicineEffect medicineEffect=medicineEffectRepository.findById((long) 966).get();
+    public String transferEffect(ArrayList<MedicineEffectTransfer> medicineEffectTransfers)  {
 
+        for(MedicineEffectTransfer medicineEffectTransfer :medicineEffectTransfers ){
+                MedicineEffect medicineEffect=medicineEffectRepository.findById(Long.parseLong(medicineEffectTransfer.getMedicineEffectId())).get();
+            System.out.println(count+" : "+medicineEffect.getId()+"변환 중");
             if(medicineEffect.getEffect().substring(0, 4).equals("http")){
-                System.out.println(count+" : "+medicineEffect.getId()+"변환 중");
+                System.out.println("effect 변환중");
                 System.out.println(medicineEffect.getEffect().substring(0, 4));
                 String text;
                 text=getPdf(medicineEffect.getEffect());
                 medicineEffect.setEffect(text);
             }
             if(medicineEffect.getPrecautions().substring(0, 4).equals("http")){
+                System.out.println("Precautions 변환중");
                 String text;
                 text=getPdf(medicineEffect.getPrecautions());
                 medicineEffect.setPrecautions(text);
             }
             if(medicineEffect.getUsageCapacity().substring(0, 4).equals("http")){
+                System.out.println("Usage Capacity 변환중");
                 String text;
                 text=getPdf(medicineEffect.getUsageCapacity());
                 medicineEffect.setUsageCapacity(text);
@@ -193,11 +195,16 @@ public class MedicineInfoService {
         return "ok";
     }
 
-    public String getPdf(String url) throws IOException {
-        document=PDDocument.load(new URL(url));//효능효과
-        String s=pdfStripper.getText(document);
-        document.close();
-        return s;
+    public String getPdf(String url)  {
+        String s=url;
+        try {
+        URL url1=new URL(url);
+        document=PDDocument.load(url1);//효능효과
+         s= pdfStripper.getText(document);document.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+         return s;
     }
 
 
