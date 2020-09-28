@@ -1,9 +1,9 @@
 package kr.co.smrp.smrp.interfaces.medicine;
 
 import kr.co.smrp.smrp.application.medicine.MedicineInfoService;
-import kr.co.smrp.smrp.domain.medicine.medicineInfo.ConMedicineAskDto;
-import kr.co.smrp.smrp.dto.medicine.AddMedicineInfoAskDto;
-import kr.co.smrp.smrp.dto.medicine.MedicineInfoRsponDTO;
+import kr.co.smrp.smrp.dto.medicine.*;
+import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
+import kr.co.smrp.smrp.dto.Message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +29,22 @@ public class MedicineInfoController {
     @GetMapping("medicine/search")
     public MedicineInfoRsponDTO getMedicine(@RequestParam String itemSeq){
         return medicineInfoService.getMedicineInfo(itemSeq);
+    }
+    @PostMapping("medicine/addList")
+    public Message addMedicineList(@RequestBody ArrayList<MedicineInfo> medicineInfo){
+        return medicineInfoService.addList(medicineInfo);
+    }
+    @PostMapping("medicine/addMedicineEffect")
+    public Message addMedicineEffect(@RequestBody ArrayList<MedicineEffectAskDto> medicineEffectAskDtos){
+        return medicineInfoService.addListEffect(medicineEffectAskDtos);
+    }
+    @GetMapping("medicine/getEffect")
+    public String getEffect(@RequestParam Long id){
+        return medicineInfoService.getEffect(id);
+    }
+
+    @PostMapping("medicine/getEffect1111")
+    public String getEffect1111(@RequestBody ArrayList<ItemSeq> itemSeqs){
+        return medicineInfoService.getEffect1111(itemSeqs);
     }
 }

@@ -1,5 +1,8 @@
 spring:
   datasource :
+ #   url : jdbc:postgresql://localhost:5432/AWS_TEST
+  #  username: postgres
+   # password: 3621
     url : jdbc:postgresql://smrp.csz0y3ch3vk9.ap-northeast-2.rds.amazonaws.com:5432/postgres
     username: wnstlr0615
     password: Wlwns135

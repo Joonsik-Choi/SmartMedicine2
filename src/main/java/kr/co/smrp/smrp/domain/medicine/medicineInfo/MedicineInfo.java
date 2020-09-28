@@ -1,5 +1,7 @@
 package kr.co.smrp.smrp.domain.medicine.medicineInfo;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class MedicineInfo {
     @Id
     @GeneratedValue
@@ -19,6 +22,7 @@ public class MedicineInfo {
     private  String itemName;
     private  String entpSeq;
     private  String entpName;
+    @Column(length = 1000)
     private  String chart;
     private  String itemImage;
     private  String printFront;
@@ -33,6 +37,7 @@ public class MedicineInfo {
     private  String etcOtcName;
     private  String formCodeName;
     private  String formula;
+    @Setter
     @OneToOne
     private MedicineEffect medicineEffect;
 

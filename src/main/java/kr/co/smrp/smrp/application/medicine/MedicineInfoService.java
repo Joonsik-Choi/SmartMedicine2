@@ -1,10 +1,12 @@
 package kr.co.smrp.smrp.application.medicine;
 
-import kr.co.smrp.smrp.domain.medicine.medicineInfo.ConMedicineAskDto;
+import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineEffect;
+import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineEffectRepository;
+import kr.co.smrp.smrp.dto.medicine.*;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfoRepository;
-import kr.co.smrp.smrp.dto.medicine.AddMedicineInfoAskDto;
-import kr.co.smrp.smrp.dto.medicine.MedicineInfoRsponDTO;
+import kr.co.smrp.smrp.dto.Message.Message;
+import kr.co.smrp.smrp.dto.Message.ResultCode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,8 +16,10 @@ import java.util.Optional;
 @Service
 public class MedicineInfoService {
     private MedicineInfoRepository medicineInfoRepository;
-    public MedicineInfoService(MedicineInfoRepository medicineInfoRepository){
+    private MedicineEffectRepository medicineEffectRepository;
+    public MedicineInfoService(MedicineInfoRepository medicineInfoRepository, MedicineEffectRepository medicineEffectRepository){
         this.medicineInfoRepository=medicineInfoRepository;
+        this.medicineEffectRepository=medicineEffectRepository;
     }
 
     public void add(AddMedicineInfoAskDto addMedicineInfoAskDto) { //약정보 추가
@@ -94,5 +98,59 @@ public class MedicineInfoService {
         Optional<MedicineInfo>  medicineInfo=medicineInfoRepository.findByItemSeq(itemSeq);
         MedicineInfoRsponDTO medicineInfoRsponDTO=new MedicineInfoRsponDTO(medicineInfo.get());
         return medicineInfoRsponDTO;
+    }
+
+    public Message addList(ArrayList<MedicineInfo> medicineInfos) {
+        for(MedicineInfo medicineInfo1 :medicineInfos)
+            medicineInfoRepository.save(medicineInfo1);
+        return Message.builder().resultCode(ResultCode.OK).build();
+    }
+
+    public Message addListEffect(ArrayList<MedicineEffectAskDto> medicineEffectAskDtos) {
+        for(MedicineEffectAskDto medicineEffectAskDto: medicineEffectAskDtos){
+            ArrayList<MedicineInfo> medicineInfos=medicineInfoRepository.findByItemList(medicineEffectAskDto.getItemSeq());
+            if(medicineInfos.size()==0)continue;
+            MedicineEffect medicineEffect=new MedicineEffect(medicineEffectAskDto);
+            medicineEffect.setMedicineInfo(medicineInfos.get(0));
+            medicineEffectRepository.save(medicineEffect);
+            if(medicineInfos.size()==1){
+                medicineInfos.get(0).setMedicineEffect(medicineEffect);
+            }
+            else if(medicineInfos.size()>1){
+                for(MedicineInfo medicineInfo: medicineInfos){
+                    medicineInfo.setMedicineEffect(medicineEffect);
+                }
+            }
+        }
+        return Message.builder().resultCode(ResultCode.OK).build();
+        }
+
+    public String getEffect(Long id) {
+        Optional<MedicineEffect> medicineEffect=medicineEffectRepository.findById(id);
+        if(medicineEffect.isPresent()){
+            return medicineEffect.get().getEffect();
+        }
+        return "no data";
+    }
+
+    public String getEffect1111(ArrayList<ItemSeq> itemSeq) {
+        String base="https://nedrug.mfds.go.kr/pbp/cmn/pdfDownload/";
+        for(ItemSeq seq : itemSeq){
+            ArrayList<MedicineInfo> medicineInfos=medicineInfoRepository.findByItemList(seq.getItemSeq());
+            String effect=base+seq+"/EE";
+            String usageCapacity=base+seq+"/UD";
+            String precautions=base+seq+"/NB";
+            MedicineEffect medicineEffect=MedicineEffect.builder()
+                                                .effect(effect)
+                                                .precautions(precautions)
+                                                .usageCapacity(usageCapacity)
+                                                .medicineInfo(medicineInfos.get(0))
+                                                .build();
+            medicineEffectRepository.save(medicineEffect);
+            for(MedicineInfo medicineInfo: medicineInfos){
+                medicineInfo.setMedicineEffect(medicineEffect);
+            }
+        }
+        return "ok";
     }
 }
