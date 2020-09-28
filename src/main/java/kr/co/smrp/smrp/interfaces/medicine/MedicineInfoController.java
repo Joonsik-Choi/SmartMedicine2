@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -46,5 +47,10 @@ public class MedicineInfoController {
     @PostMapping("medicine/getEffect1111")
     public String getEffect1111(@RequestBody ArrayList<ItemSeq> itemSeqs){
         return medicineInfoService.getEffect1111(itemSeqs);
+    }
+
+    @GetMapping("/medicine/transfer")
+    public String transferEffect() throws IOException {
+        return medicineInfoService.transferEffect();
     }
 }

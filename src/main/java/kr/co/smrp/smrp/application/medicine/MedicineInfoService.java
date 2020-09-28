@@ -7,8 +7,13 @@ import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFTextStripper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +22,12 @@ import java.util.Optional;
 public class MedicineInfoService {
     private MedicineInfoRepository medicineInfoRepository;
     private MedicineEffectRepository medicineEffectRepository;
-    public MedicineInfoService(MedicineInfoRepository medicineInfoRepository, MedicineEffectRepository medicineEffectRepository){
+
+    PDDocument document;
+    PDFTextStripper pdfStripper=new PDFTextStripper();
+
+
+    public MedicineInfoService(MedicineInfoRepository medicineInfoRepository, MedicineEffectRepository medicineEffectRepository) throws IOException {
         this.medicineInfoRepository=medicineInfoRepository;
         this.medicineEffectRepository=medicineEffectRepository;
     }
@@ -153,4 +163,34 @@ public class MedicineInfoService {
         }
         return "ok";
     }
+    public String transferEffect() throws IOException {
+        ArrayList<MedicineEffect> medicineEffects= (ArrayList<MedicineEffect>) medicineEffectRepository.findAll();
+        for(MedicineEffect medicineEffect :medicineEffects){
+            if(medicineEffect.getEffect().substring(0, 5).contains("http")){
+                String text;
+                text=getPdf(medicineEffect.getEffect());
+                medicineEffect.setEffect(text);
+            }
+            if(medicineEffect.getPrecautions().substring(0, 5).contains("http")){
+                String text;
+                text=getPdf(medicineEffect.getPrecautions());
+                medicineEffect.setPrecautions(text);
+            }
+            if(medicineEffect.getUsageCapacity().substring(0, 5).contains("http")){
+                String text;
+                text=getPdf(medicineEffect.getUsageCapacity());
+                medicineEffect.setUsageCapacity(text);
+            }
+        }
+        return "ok";
+    }
+
+    public String getPdf(String url) throws IOException {
+        document=PDDocument.load(new URL(url));//효능효과
+        String s=pdfStripper.getText(document);
+        document.close();
+        return s;
+    }
+
+
 }
