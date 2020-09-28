@@ -22,6 +22,7 @@ import java.util.Optional;
 public class MedicineInfoService {
     private MedicineInfoRepository medicineInfoRepository;
     private MedicineEffectRepository medicineEffectRepository;
+    static int count=0;
 
     PDDocument document;
     PDFTextStripper pdfStripper=new PDFTextStripper();
@@ -166,21 +167,28 @@ public class MedicineInfoService {
     public String transferEffect() throws IOException {
         ArrayList<MedicineEffect> medicineEffects= (ArrayList<MedicineEffect>) medicineEffectRepository.findAll();
         for(MedicineEffect medicineEffect :medicineEffects){
-            if(medicineEffect.getEffect().substring(0, 5).contains("http")){
+       // MedicineEffect medicineEffect=medicineEffectRepository.findById((long) 966).get();
+
+            if(medicineEffect.getEffect().substring(0, 4).equals("http")){
+                System.out.println(count+" : "+medicineEffect.getId()+"변환 중");
+                System.out.println(medicineEffect.getEffect().substring(0, 4));
                 String text;
                 text=getPdf(medicineEffect.getEffect());
                 medicineEffect.setEffect(text);
             }
-            if(medicineEffect.getPrecautions().substring(0, 5).contains("http")){
+            if(medicineEffect.getPrecautions().substring(0, 4).equals("http")){
                 String text;
                 text=getPdf(medicineEffect.getPrecautions());
                 medicineEffect.setPrecautions(text);
             }
-            if(medicineEffect.getUsageCapacity().substring(0, 5).contains("http")){
+            if(medicineEffect.getUsageCapacity().substring(0, 4).equals("http")){
                 String text;
                 text=getPdf(medicineEffect.getUsageCapacity());
                 medicineEffect.setUsageCapacity(text);
             }
+            System.out.println(count+" : "+medicineEffect.getId()+"변환 완료");
+            count++;
+            medicineEffectRepository.save(medicineEffect);
         }
         return "ok";
     }
