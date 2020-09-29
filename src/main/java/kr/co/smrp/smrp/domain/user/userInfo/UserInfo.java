@@ -30,9 +30,9 @@ public class UserInfo {
     private Gender gender;
     private LocalDate birth;
     private LocalDateTime createdAt;
-      @OneToMany(mappedBy = "userInfo")
+      @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY )
     private List<RegMedicine> regMedicineList;
-      @OneToMany(mappedBy = "userInfo")
+      @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY)
     private List<MedicineAlarm> medicineAlarms;
 
    

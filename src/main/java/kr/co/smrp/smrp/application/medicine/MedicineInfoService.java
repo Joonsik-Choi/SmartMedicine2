@@ -9,6 +9,7 @@ import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -40,18 +41,20 @@ public class MedicineInfoService {
         List<MedicineInfo> medicineInfos=new ArrayList<>();
         List<MedicineInfoRsponDTO> medicineInfoRsponDTOS=new ArrayList<>();
       String num=conMedicineAskDto.getConditionNum();
-      String itemName=conMedicineAskDto.getMedicineName();
+      String itemName="%"+conMedicineAskDto.getMedicineName()+"%";
       ArrayList<String> line=conMedicineAskDto.getLine();
       ArrayList<String> formula=conMedicineAskDto.getFormula();
       ArrayList<String> color=conMedicineAskDto.getColor();
       ArrayList<String> shape=conMedicineAskDto.getShape();
       System.out.println(num);
       switch (num){
-          case "0000":
+          case "0000":  //약 이름만 검색
+              System.out.println(itemName);
               medicineInfos=medicineInfoRepository.findMethod0(itemName);
+              System.out.println(medicineInfos.size());
               break;
-          case "0001":
-              medicineInfos=medicineInfoRepository.findMethod1(line, itemName);
+          case "0001":   //이름 + 분할선 검색
+              medicineInfos=medicineInfoRepository.findMethod1(line,itemName);
               break;
           case "0010":
               medicineInfos= medicineInfoRepository.findMethod2(formula,itemName);
@@ -99,8 +102,7 @@ public class MedicineInfoService {
               System.out.println("오류");
       }
       for(MedicineInfo medicineInfo : medicineInfos){
-          MedicineInfoRsponDTO medicineInfoRsponDTO=new MedicineInfoRsponDTO(medicineInfo);
-          medicineInfoRsponDTOS.add(medicineInfoRsponDTO);
+          medicineInfoRsponDTOS.add(new MedicineInfoRsponDTO(medicineInfo));
       }
         return medicineInfoRsponDTOS;
   } //약 조건 검사
@@ -168,7 +170,10 @@ public class MedicineInfoService {
 
         for(MedicineEffectTransfer medicineEffectTransfer :medicineEffectTransfers ){
                 MedicineEffect medicineEffect=medicineEffectRepository.findById(Long.parseLong(medicineEffectTransfer.getMedicineEffectId())).get();
-            System.out.println(count+" : "+medicineEffect.getId()+"변환 중");
+                if(medicineEffect.getId()==3218)continue;
+
+
+                System.out.println(count+" : "+medicineEffect.getId()+"변환 중");
             if(medicineEffect.getEffect().substring(0, 4).equals("http")){
                 System.out.println("effect 변환중");
                 System.out.println(medicineEffect.getEffect().substring(0, 4));
@@ -201,10 +206,10 @@ public class MedicineInfoService {
         URL url1=new URL(url);
         document=PDDocument.load(url1);//효능효과
          s= pdfStripper.getText(document);document.close();
-        }catch (IOException e){
+        }catch (Exception e){
             e.printStackTrace();
         }
-         return s;
+        return s;
     }
 
 

@@ -38,9 +38,6 @@ public class MedicineInfo {
     private  String formCodeName;
     private  String formula;
     @Setter
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private MedicineEffect medicineEffect;
-
-
-
 }

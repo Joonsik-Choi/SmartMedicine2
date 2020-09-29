@@ -23,7 +23,7 @@ public class MedicineEffect {
     @Column(name = "MEDICINE_EFFECT_ID")
     private Long id;
     @Setter
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEDICINE_ID")
     private MedicineInfo medicineInfo;
     @Lob
