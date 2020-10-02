@@ -213,4 +213,15 @@ public class MedicineInfoService {
     }
 
 
+    public MedicineInfoRsponDTO findMedicineOcr(String[] medicineLogo) {
+       String[] code=new String[2];
+       ArrayList<MedicineInfo> medicineInfos=new ArrayList<>();
+       code[0]=medicineLogo[0];
+       code[1]=medicineLogo[1];
+       medicineInfos=medicineInfoRepository.findMethodOcr(code[0], code[1]);
+       if(medicineInfos.size()>0) {
+            return new MedicineInfoRsponDTO(medicineInfos.get(0));
+       }
+       return MedicineInfoRsponDTO.builder().build();
+    }
 }

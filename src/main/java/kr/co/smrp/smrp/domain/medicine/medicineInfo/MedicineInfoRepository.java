@@ -66,4 +66,6 @@ public interface MedicineInfoRepository extends JpaRepository<MedicineInfo,Long>
 
     @Query(value="select * from MEDICINE_INFO a where ((a.drug_shape in (:shape)) and (a.color_class1 in (:color) or a.color_class2 in (:color)) and (a.formula in(:formula)) and (a.line_front in (:line) or a.line_back in (:line))) and item_name like :itemName", nativeQuery=true)
     List<MedicineInfo> findMethod15(@Param("shape")ArrayList<String> shape, @Param("color")ArrayList<String> color,@Param("formula") ArrayList<String> formula,@Param("line") ArrayList<String> line, @Param("itemName")String itemName);
+    @Query(value="select * from MEDICINE_INFO a where (print_front like :code1 and print_back like :code2) or (print_front like :code2 and print_back like :code1)", nativeQuery=true)
+    ArrayList<MedicineInfo> findMethodOcr(@Param("code1")String code1,@Param("code2") String code2);
 }

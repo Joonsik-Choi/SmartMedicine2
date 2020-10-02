@@ -53,4 +53,9 @@ public class MedicineInfoController {
     public String transferEffect(@RequestBody ArrayList<MedicineEffectTransfer> medicineEffectTransfer) throws IOException {
         return medicineInfoService.transferEffect(medicineEffectTransfer);
     }
+    @PostMapping("/medicine/ocr")
+    public MedicineInfoRsponDTO findMedicineOcr(@RequestBody String[] medicineLogo){
+        return medicineInfoService.findMedicineOcr(medicineLogo);
+    }
+
 }
