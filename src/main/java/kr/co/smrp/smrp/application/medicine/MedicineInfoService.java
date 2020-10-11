@@ -108,8 +108,8 @@ public class MedicineInfoService {
   } //약 조건 검사
 
     public MedicineInfoRsponDTO getMedicineInfo(String itemSeq) { //약 1건 상제 정보 보기
-        Optional<MedicineInfo>  medicineInfo=medicineInfoRepository.findByItemSeq(itemSeq);
-        MedicineInfoRsponDTO medicineInfoRsponDTO=new MedicineInfoRsponDTO(medicineInfo.get());
+        List<MedicineInfo>  medicineInfo=medicineInfoRepository.findByItemSeq(itemSeq);
+        MedicineInfoRsponDTO medicineInfoRsponDTO=new MedicineInfoRsponDTO(medicineInfo.get(0));
         return medicineInfoRsponDTO;
     }
 

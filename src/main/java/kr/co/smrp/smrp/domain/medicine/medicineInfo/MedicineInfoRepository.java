@@ -11,7 +11,7 @@ public interface MedicineInfoRepository extends JpaRepository<MedicineInfo,Long>
     @Query(value="select * from MEDICINE_INFO a where a.item_seq = :itemseq", nativeQuery=true)
     ArrayList<MedicineInfo> findByItemList(@Param("itemseq")String itemseq);
 
-    Optional<MedicineInfo> findByItemSeq(String medicineId);
+    List<MedicineInfo> findByItemSeq(String medicineId);
 
     @Query(value="select * from MEDICINE_INFO a where a.item_name like :itemName", nativeQuery=true)
     ArrayList<MedicineInfo> findByItemNameMethod1(@Param("itemName")String itemName);

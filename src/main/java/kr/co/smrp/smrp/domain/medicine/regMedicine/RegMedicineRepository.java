@@ -14,5 +14,6 @@ import java.util.Optional;
 public interface RegMedicineRepository extends JpaRepository<RegMedicine, Long> {
     ArrayList<RegMedicine> findAllByUserInfo(UserInfo userId);
 
-    List<RegMedicine> findAllByUserInfoAndMedicineInfo(Optional<UserInfo> userInfo, Optional<MedicineInfo> medicineInfo);
+    Optional<RegMedicine> findAllByUserInfoAndMedicineInfo(Optional<UserInfo> userInfo, MedicineInfo medicineInfo);
+    Optional<RegMedicine> findAllByUserInfoAndMedicineInfoAndState(Optional<UserInfo> userInfo, MedicineInfo medicineInfo, BooleanType booleanType);
 }

@@ -7,6 +7,8 @@ import kr.co.smrp.smrp.domain.medicine.regMedicine.RegMedicine;
 import kr.co.smrp.smrp.domain.medicine.regMedicine.RegMedicineRepository;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfoRepository;
+import kr.co.smrp.smrp.dto.Message.Message;
+import kr.co.smrp.smrp.dto.Message.ResultCode;
 import kr.co.smrp.smrp.dto.medicine.RegmedicineAskDto;
 import kr.co.smrp.smrp.dto.medicine.SumMedInfo;
 import org.springframework.stereotype.Service;
@@ -31,14 +33,21 @@ public class RegMedicineService {
 
     public void addRegMedicine(RegmedicineAskDto regmedicineAskDto) {
         Optional<UserInfo> userInfo=userInfoRepository.findByUserId(regmedicineAskDto.getUserId());
-        Optional<MedicineInfo> medicineInfo=medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());
-        RegMedicine regMedicine=RegMedicine.builder()
-                                    .createdAt(LocalDateTime.now())
-                                    .userInfo(userInfo.get())
-                                    .medicineInfo(medicineInfo.get())
-                                    .state(BooleanType.BEGIN)
-                                    .build();
-        regMedicineRepository.save(regMedicine);
+        List<MedicineInfo> medicineInfo=medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());
+        Optional<RegMedicine> regMed=regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo,medicineInfo.get(0));
+        if(!regMed.isPresent()) {
+            RegMedicine regMedicine = RegMedicine.builder()
+                    .createdAt(LocalDateTime.now())
+                    .userInfo(userInfo.get())
+                    .medicineInfo(medicineInfo.get(0))
+                    .state(BooleanType.BEGIN)
+                    .build();
+                regMedicineRepository.save(regMedicine);
+        }
+        else {
+            regMed.get().update();
+            regMedicineRepository.save(regMed.get());
+        }
     }
 
     public List<SumMedInfo> getUserRegMedicines(String userId) {
@@ -62,14 +71,15 @@ public class RegMedicineService {
         }// if(userInfo.isPresent());
         return sumMedInfos;
     }
-    public String deleteRegMedicine(RegmedicineAskDto regmedicineAskDto) {
+    public Message deleteRegMedicine(RegmedicineAskDto regmedicineAskDto) {
         Optional<UserInfo> userInfo = userInfoRepository.findByUserId(regmedicineAskDto.getUserId());
-        Optional<MedicineInfo> medicineInfo = medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());
-        List<RegMedicine> regMedicines = regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo, medicineInfo);
-        for (RegMedicine regMedicine : regMedicines) {
-            regMedicine.finish();
-            regMedicineRepository.save(regMedicine);
+        List<MedicineInfo> medicineInfo = medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());
+        Optional<RegMedicine> regMedicines = regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo, medicineInfo.get(0));
+        if(regMedicines.isPresent()){
+            regMedicines.get().finish();
+            regMedicineRepository.save(regMedicines.get());
+            return Message.builder().resultCode(ResultCode.OK).build();
         }
-        return regMedicines.size()>0?"ok":"nothing";
+        return Message.builder().resultCode(ResultCode.FAIL).build();
     }
 }

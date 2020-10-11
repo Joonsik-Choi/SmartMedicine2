@@ -1,5 +1,7 @@
 package kr.co.smrp.smrp.interfaces.medicine;
 import kr.co.smrp.smrp.application.medicine.RegMedicineService;
+import kr.co.smrp.smrp.dto.Message.Message;
+import kr.co.smrp.smrp.dto.Message.ResultCode;
 import kr.co.smrp.smrp.dto.medicine.RegmedicineAskDto;
 import kr.co.smrp.smrp.dto.medicine.SumMedInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,11 @@ public class RegMedicineController {
 
     @PostMapping("/medicine/register/add")
     public ResponseEntity addRegMedicine(@RequestBody RegmedicineAskDto regmedicineAskDto) throws URISyntaxException {
-           regMedicineService.addRegMedicine(regmedicineAskDto);
-            return ResponseEntity.created(new URI("/medicine/register/"+regmedicineAskDto.getUserId())).body("{}");
-    }
+         regMedicineService.addRegMedicine(regmedicineAskDto);
+               return ResponseEntity.created(new URI("/medicine/register/" + regmedicineAskDto.getUserId())).body("{ \"resultCode\": \"OK\"}");
+           }
     @DeleteMapping("medicine/register/delete")
-    public String delRegMedicine(@RequestBody RegmedicineAskDto regmedicineAskDto){
+    public Message delRegMedicine(@RequestBody RegmedicineAskDto regmedicineAskDto){
         return regMedicineService.deleteRegMedicine(regmedicineAskDto);
 
     }

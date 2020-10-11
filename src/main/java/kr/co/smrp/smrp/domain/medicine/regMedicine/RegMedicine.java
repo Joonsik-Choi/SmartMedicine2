@@ -8,6 +8,7 @@ import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 @Entity
@@ -34,7 +35,10 @@ public class RegMedicine {
       @OneToMany(mappedBy = "regMedicine")
     private List<AlarmRegMedicine> alarmRegMedicines;
     private LocalDateTime createdAt;
-
+    public void update(){
+        this.state=BooleanType.BEGIN;
+        createdAt=LocalDateTime.now();
+    }
     public void finish() {
         this.state=BooleanType.FINISH;
     }
