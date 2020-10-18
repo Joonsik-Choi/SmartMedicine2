@@ -1,5 +1,7 @@
 package kr.co.smrp.smrp.domain.medicine.MedicineAlarm;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import kr.co.smrp.smrp.domain.medicine.alarmRegMedicine.AlarmRegMedicine;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import lombok.*;
@@ -14,6 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class MedicineAlarm {
     @Id
     @GeneratedValue

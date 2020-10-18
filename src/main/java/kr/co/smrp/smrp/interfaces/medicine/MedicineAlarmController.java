@@ -4,6 +4,7 @@ import kr.co.smrp.smrp.application.medicine.MedicineAlarmService;
 import kr.co.smrp.smrp.domain.medicine.MedicineAlarm.MedicineAlarm;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.medicine.MedicineAlarmAskDto;
+import kr.co.smrp.smrp.dto.medicine.MedicineAlarmResponDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,18 @@ import java.util.ArrayList;
 public class MedicineAlarmController {
     @Autowired
     private MedicineAlarmService medicineAlarmService;
+    @GetMapping("medicine/alarmAll")
+    public ArrayList<MedicineAlarmResponDto> getMedicineAlarmAll(@RequestParam String userId){
+       return (ArrayList<MedicineAlarmResponDto>) medicineAlarmService.getMedicineAlarmAll(userId);
+    }
     @GetMapping("medicine/alarm")
-    public ArrayList<MedicineAlarm> getMedicineAlarm(@RequestParam String userId){
-       return (ArrayList<MedicineAlarm>) medicineAlarmService.getMedicineAlarm(userId);
+    public MedicineAlarmResponDto getMedicineAlarm(@RequestParam Long medicineAlarmId){
+        return medicineAlarmService.getMedicineAlarm(medicineAlarmId);
     }
     @PostMapping("medicine/alarm/add")
     public ResponseEntity addMedicineAlarm(@RequestBody MedicineAlarmAskDto medicineAlarmAskDto) throws  URISyntaxException {
         medicineAlarmService.addMedicineAlarm(medicineAlarmAskDto);
-        return ResponseEntity.created(new URI("medicine/alarm/add/"+medicineAlarmAskDto.getUserId())).body("{}");
+        return ResponseEntity.created(new URI("medicine/alarm/add/"+medicineAlarmAskDto.getUserId())).body("{ \"resultCode\": \"OK\"}");
     }
     @DeleteMapping("medicine/alarm/delete")
     public Message deleteMedicineAlarm(@RequestParam Long medicineAlarmId){

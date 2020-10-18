@@ -13,6 +13,8 @@ import kr.co.smrp.smrp.domain.user.userInfo.UserInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
 import kr.co.smrp.smrp.dto.medicine.MedicineAlarmAskDto;
+import kr.co.smrp.smrp.dto.medicine.MedicineAlarmResponDto;
+import kr.co.smrp.smrp.dto.medicine.SumMedInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,10 +37,22 @@ public class MedicineAlarmService {
     this.regMedicineRepository=regMedicineRepository;
     this.alarmRegMedicineRepository=alarmRegMedicineRepository;
 }
-    public List<MedicineAlarm> getMedicineAlarm(String userId) {
+    public List<MedicineAlarmResponDto> getMedicineAlarmAll(String userId) {
         Optional<UserInfo> userInfo=userInfoRepository.findByUserId(userId);
         List<MedicineAlarm> medicineAlarmList=medicineAlarmRepository.findByUserInfo(userInfo.get());
-        return medicineAlarmList;
+        List<MedicineAlarmResponDto> medicineAlarmResponDtos=new ArrayList<>();
+
+        for(MedicineAlarm medicineAlarm: medicineAlarmList){
+            MedicineAlarmResponDto medicineAlarmResponDto=new MedicineAlarmResponDto(medicineAlarm);
+            ArrayList<SumMedInfo> regMedicines=new ArrayList<>();
+            for(AlarmRegMedicine alarmRegMedicine: medicineAlarm.getAlarmRegMedicines()){
+                Optional<RegMedicine> regMedicine=regMedicineRepository.findById(alarmRegMedicine.getRegMedicine().getId());
+                regMedicines.add(new SumMedInfo(regMedicine.get()));
+            }
+            medicineAlarmResponDto.setRegMedicineArrayList(regMedicines);
+            medicineAlarmResponDtos.add(medicineAlarmResponDto);
+        }
+        return medicineAlarmResponDtos;
     }
     public void addMedicineAlarm(MedicineAlarmAskDto medicineAlarmAskDto) {
         Optional<UserInfo> userInfo=userInfoRepository.findByUserId(medicineAlarmAskDto.getUserId());
@@ -73,5 +87,17 @@ public class MedicineAlarmService {
         }
         medicineAlarmRepository.deleteById(medicineAlarmId);
         return Message.builder().resultCode(ResultCode.DELETE).build();
+    }
+
+    public MedicineAlarmResponDto getMedicineAlarm(Long medicineAlarmId) {
+        MedicineAlarm medicineAlarm=medicineAlarmRepository.findById(medicineAlarmId).get();
+        MedicineAlarmResponDto medicineAlarmResponDto=new MedicineAlarmResponDto(medicineAlarm);
+        ArrayList<SumMedInfo> regMedicines=new ArrayList<>();
+        for(AlarmRegMedicine alarmRegMedicine: medicineAlarm.getAlarmRegMedicines()){
+            Optional<RegMedicine> regMedicine=regMedicineRepository.findById(alarmRegMedicine.getRegMedicine().getId());
+            regMedicines.add(new SumMedInfo(regMedicine.get()));
+        }
+        medicineAlarmResponDto.setRegMedicineArrayList(regMedicines);
+        return medicineAlarmResponDto;
     }
 }

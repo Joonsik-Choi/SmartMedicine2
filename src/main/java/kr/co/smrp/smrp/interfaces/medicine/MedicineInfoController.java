@@ -1,6 +1,7 @@
 package kr.co.smrp.smrp.interfaces.medicine;
 
 import kr.co.smrp.smrp.application.medicine.MedicineInfoService;
+import kr.co.smrp.smrp.dto.Message.ResultCode;
 import kr.co.smrp.smrp.dto.medicine.*;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.dto.Message.Message;
@@ -17,7 +18,6 @@ import java.net.URISyntaxException;
 public class MedicineInfoController {
     @Autowired
     MedicineInfoService medicineInfoService;
-
     @PostMapping("medicine/add")
     public ResponseEntity addMedicine(@RequestBody AddMedicineInfoAskDto addMedicineInfoAskDto) throws URISyntaxException { //약추가하기
         medicineInfoService.add(addMedicineInfoAskDto);
@@ -35,27 +35,13 @@ public class MedicineInfoController {
     public Message addMedicineList(@RequestBody ArrayList<MedicineInfo> medicineInfo){
         return medicineInfoService.addList(medicineInfo);
     }
-    @PostMapping("medicine/addMedicineEffect")
-    public Message addMedicineEffect(@RequestBody ArrayList<MedicineEffectAskDto> medicineEffectAskDtos){
-        return medicineInfoService.addListEffect(medicineEffectAskDtos);
-    }
-    @GetMapping("medicine/getEffect")
-    public String getEffect(@RequestParam Long id){
-        return medicineInfoService.getEffect(id);
-    }
-
-    @PostMapping("medicine/getEffect1111")
-    public String getEffect1111(@RequestBody ArrayList<ItemSeq> itemSeqs){
-        return medicineInfoService.getEffect1111(itemSeqs);
-    }
-
-    @PostMapping("/medicine/transfer")
-    public String transferEffect(@RequestBody ArrayList<MedicineEffectTransfer> medicineEffectTransfer) throws IOException {
-        return medicineInfoService.transferEffect(medicineEffectTransfer);
+    @PostMapping("medicine/search")
+    public ArrayList<MedicineInfoRsponDTO> searchMedicine(@RequestBody String[] s){
+        medicineInfoService.SearchMedicine(s);
+        return new ArrayList<MedicineInfoRsponDTO>();
     }
     @PostMapping("/medicine/ocr")
     public MedicineInfoRsponDTO findMedicineOcr(@RequestBody String[] medicineLogo){
         return medicineInfoService.findMedicineOcr(medicineLogo);
     }
-
 }

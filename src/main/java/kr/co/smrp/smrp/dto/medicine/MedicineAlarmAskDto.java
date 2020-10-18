@@ -15,11 +15,11 @@ import java.util.List;
 @ToString
 public class MedicineAlarmAskDto {
     private String userId;
-    private ArrayList<Long> registerId;
-    private String alarmName;
-    private int dosingPeriod;
-    private LocalDateTime startAlarm;
-    private LocalDateTime finishAlarm;
-    private int oneTimeCapacity;
-    private String doseType;
+    private ArrayList<Long> registerId;  //등록된 약 리스트
+    private String alarmName; // 알람 이름
+    private int dosingPeriod;  //복용기간
+    private LocalDateTime startAlarm; //시작 시간
+    private LocalDateTime finishAlarm; // 끝나는 시간
+    private int oneTimeCapacity;  //1회 복용 횟수
+    private String doseType;  //복용 타입
 }

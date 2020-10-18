@@ -22,10 +22,7 @@ import java.util.Optional;
 public class MedicineInfoService {
     private MedicineInfoRepository medicineInfoRepository;
     private MedicineEffectRepository medicineEffectRepository;
-    static int count=0;
 
-    PDDocument document;
-    PDFTextStripper pdfStripper=new PDFTextStripper();
 
 
     public MedicineInfoService(MedicineInfoRepository medicineInfoRepository, MedicineEffectRepository medicineEffectRepository) throws IOException {
@@ -37,7 +34,7 @@ public class MedicineInfoService {
         MedicineInfo medicineInfo=addMedicineInfoAskDto.toEntity();
         medicineInfoRepository.save(medicineInfo);
     }
-  public List<MedicineInfoRsponDTO> getConMedicineInfo(ConMedicineAskDto conMedicineAskDto){ //약 선태사항 검색
+  public List<MedicineInfoRsponDTO> getConMedicineInfo(ConMedicineAskDto conMedicineAskDto){ //약 선태 사항 검색
         List<MedicineInfo> medicineInfos=new ArrayList<>();
         List<MedicineInfoRsponDTO> medicineInfoRsponDTOS=new ArrayList<>();
       String num=conMedicineAskDto.getConditionNum();
@@ -113,107 +110,14 @@ public class MedicineInfoService {
         return medicineInfoRsponDTO;
     }
 
-    public Message addList(ArrayList<MedicineInfo> medicineInfos) {
+    public Message addList(ArrayList<MedicineInfo> medicineInfos) { //
         for(MedicineInfo medicineInfo1 :medicineInfos)
             medicineInfoRepository.save(medicineInfo1);
         return Message.builder().resultCode(ResultCode.OK).build();
     }
 
-    public Message addListEffect(ArrayList<MedicineEffectAskDto> medicineEffectAskDtos) {
-        for(MedicineEffectAskDto medicineEffectAskDto: medicineEffectAskDtos){
-            ArrayList<MedicineInfo> medicineInfos=medicineInfoRepository.findByItemList(medicineEffectAskDto.getItemSeq());
-            if(medicineInfos.size()==0)continue;
-            MedicineEffect medicineEffect=new MedicineEffect(medicineEffectAskDto);
-            medicineEffect.setMedicineInfo(medicineInfos.get(0));
-            medicineEffectRepository.save(medicineEffect);
-            if(medicineInfos.size()==1){
-                medicineInfos.get(0).setMedicineEffect(medicineEffect);
-            }
-            else if(medicineInfos.size()>1){
-                for(MedicineInfo medicineInfo: medicineInfos){
-                    medicineInfo.setMedicineEffect(medicineEffect);
-                }
-            }
-        }
-        return Message.builder().resultCode(ResultCode.OK).build();
-        }
 
-    public String getEffect(Long id) {
-        Optional<MedicineEffect> medicineEffect=medicineEffectRepository.findById(id);
-        if(medicineEffect.isPresent()){
-            return medicineEffect.get().getEffect();
-        }
-        return "no data";
-    }
-
-    public String getEffect1111(ArrayList<ItemSeq> itemSeq) {
-        String base="https://nedrug.mfds.go.kr/pbp/cmn/pdfDownload/";
-        for(ItemSeq seq : itemSeq){
-            ArrayList<MedicineInfo> medicineInfos=medicineInfoRepository.findByItemList(seq.getItemSeq());
-            String effect=base+seq+"/EE";
-            String usageCapacity=base+seq+"/UD";
-            String precautions=base+seq+"/NB";
-            MedicineEffect medicineEffect=MedicineEffect.builder()
-                                                .effect(effect)
-                                                .precautions(precautions)
-                                                .usageCapacity(usageCapacity)
-                                                .medicineInfo(medicineInfos.get(0))
-                                                .build();
-            medicineEffectRepository.save(medicineEffect);
-            for(MedicineInfo medicineInfo: medicineInfos){
-                medicineInfo.setMedicineEffect(medicineEffect);
-            }
-        }
-        return "ok";
-    }
-    public String transferEffect(ArrayList<MedicineEffectTransfer> medicineEffectTransfers)  {
-
-        for(MedicineEffectTransfer medicineEffectTransfer :medicineEffectTransfers ){
-                MedicineEffect medicineEffect=medicineEffectRepository.findById(Long.parseLong(medicineEffectTransfer.getMedicineEffectId())).get();
-                if(medicineEffect.getId()==3218)continue;
-
-
-                System.out.println(count+" : "+medicineEffect.getId()+"변환 중");
-            if(medicineEffect.getEffect().substring(0, 4).equals("http")){
-                System.out.println("effect 변환중");
-                System.out.println(medicineEffect.getEffect().substring(0, 4));
-                String text;
-                text=getPdf(medicineEffect.getEffect());
-                medicineEffect.setEffect(text);
-            }
-            if(medicineEffect.getPrecautions().substring(0, 4).equals("http")){
-                System.out.println("Precautions 변환중");
-                String text;
-                text=getPdf(medicineEffect.getPrecautions());
-                medicineEffect.setPrecautions(text);
-            }
-            if(medicineEffect.getUsageCapacity().substring(0, 4).equals("http")){
-                System.out.println("Usage Capacity 변환중");
-                String text;
-                text=getPdf(medicineEffect.getUsageCapacity());
-                medicineEffect.setUsageCapacity(text);
-            }
-            System.out.println(count+" : "+medicineEffect.getId()+"변환 완료");
-            count++;
-            medicineEffectRepository.save(medicineEffect);
-        }
-        return "ok";
-    }
-
-    public String getPdf(String url)  {
-        String s=url;
-        try {
-        URL url1=new URL(url);
-        document=PDDocument.load(url1);//효능효과
-         s= pdfStripper.getText(document);document.close();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return s;
-    }
-
-
-    public MedicineInfoRsponDTO findMedicineOcr(String[] medicineLogo) {
+    public MedicineInfoRsponDTO findMedicineOcr(String[] medicineLogo) { // 알약 인식 기능
        String[] code=new String[2];
        ArrayList<MedicineInfo> medicineInfos=new ArrayList<>();
        code[0]=medicineLogo[0];
@@ -223,5 +127,11 @@ public class MedicineInfoService {
             return new MedicineInfoRsponDTO(medicineInfos.get(0));
        }
        return MedicineInfoRsponDTO.builder().build();
+    }
+
+    public void SearchMedicine(String[] s) {  // ocr 기능으로 약정보 보내기
+        for (String ss: s){
+            System.out.println(ss);
+        }
     }
 }

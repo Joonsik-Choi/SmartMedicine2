@@ -34,7 +34,7 @@ public class RegMedicineService {
         Optional<UserInfo> userInfo=userInfoRepository.findByUserId(regmedicineAskDto.getUserId());
         List<MedicineInfo> medicineInfo=medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());
         Optional<RegMedicine> regMed=regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo,medicineInfo.get(0));
-        if(!regMed.isPresent()) {
+        if(!regMed.isPresent()){
             RegMedicine regMedicine = RegMedicine.builder()
                     .createdAt(LocalDateTime.now())
                     .userInfo(userInfo.get())
@@ -57,7 +57,8 @@ public class RegMedicineService {
             for(RegMedicine regMedicine:regMedicines) {
                 if (regMedicine.getState().equals(BooleanType.BEGIN)) {//알약 삭제를 안한 목록 추출
                     MedicineInfo medicineInfo = regMedicine.getMedicineInfo();
-                    SumMedInfo sumMedInfo = SumMedInfo.builder()                //간단한 약목록 추출
+                    SumMedInfo sumMedInfo = SumMedInfo.builder()
+                            .id(regMedicine.getId())//간단한 약목록 추출
                             .itemSeq(medicineInfo.getItemSeq())
                             .imageUrl(medicineInfo.getItemImage())
                             .itemName(medicineInfo.getItemName())

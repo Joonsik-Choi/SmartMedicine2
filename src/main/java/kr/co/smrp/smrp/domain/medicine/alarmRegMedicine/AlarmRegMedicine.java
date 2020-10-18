@@ -19,7 +19,7 @@ public class AlarmRegMedicine {
     @Id
     @GeneratedValue
     @Column(name = "ALARM_REGISTER_MEDICINE_ID")
-    private java.lang.Long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "MEDICINE_ALARM_ID")
     private MedicineAlarm medicineAlarm;
