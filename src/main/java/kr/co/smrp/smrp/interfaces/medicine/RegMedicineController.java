@@ -27,7 +27,7 @@ public class RegMedicineController {
                return ResponseEntity.created(new URI("/medicine/register/" + regmedicineAskDto.getUserId())).body("{ \"resultCode\": \"OK\"}");
            }
     @DeleteMapping("medicine/register/delete")
-    public Message delRegMedicine(@RequestBody RegmedicineAskDto regmedicineAskDto){
-        return regMedicineService.deleteRegMedicine(regmedicineAskDto);
+    public Message delRegMedicine(@RequestParam long registerId){
+        return regMedicineService.deleteRegMedicine(registerId);
     }
 }

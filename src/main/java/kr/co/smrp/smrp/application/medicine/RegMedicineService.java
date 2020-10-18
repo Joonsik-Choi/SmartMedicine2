@@ -63,10 +63,8 @@ public class RegMedicineService {
         }// if(userInfo.isPresent());
         return sumMedInfos;
     }
-    public Message deleteRegMedicine(RegmedicineAskDto regmedicineAskDto) {
-        Optional<UserInfo> userInfo = userInfoRepository.findByUserId(regmedicineAskDto.getUserId());
-        List<MedicineInfo> medicineInfo = medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());
-        Optional<RegMedicine> regMedicines = regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo, medicineInfo.get(0));
+    public Message deleteRegMedicine(long registerId) {
+        Optional<RegMedicine> regMedicines = regMedicineRepository.findById(registerId);
         if(regMedicines.isPresent()){
             regMedicines.get().finish();
             regMedicineRepository.save(regMedicines.get());
