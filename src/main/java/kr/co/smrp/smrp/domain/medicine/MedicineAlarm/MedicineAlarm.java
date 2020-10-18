@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import kr.co.smrp.smrp.domain.medicine.alarmRegMedicine.AlarmRegMedicine;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
+import kr.co.smrp.smrp.dto.medicine.MedicineAlarmAskDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class MedicineAlarm {
     @GeneratedValue
     @Column(name = "MEDICINE_ALARM_ID")
     private Long id;
+    @Setter
     @ManyToOne
     @JoinColumn(name = "USER_INFO_ID")
     private UserInfo userInfo;
@@ -30,7 +32,9 @@ public class MedicineAlarm {
     private List<AlarmRegMedicine> alarmRegMedicines;
     private String alarmName;
     private int dosingPeriod;
+    @Setter
     private LocalDateTime startAlarm;
+    @Setter
     private LocalDateTime finishAlarm;
     private int oneTimeCapacity;
     private String doseType;

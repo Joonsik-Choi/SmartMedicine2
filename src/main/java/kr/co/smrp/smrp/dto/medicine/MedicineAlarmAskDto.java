@@ -1,5 +1,6 @@
 package kr.co.smrp.smrp.dto.medicine;
 
+import kr.co.smrp.smrp.domain.medicine.MedicineAlarm.MedicineAlarm;
 import kr.co.smrp.smrp.domain.medicine.alarmRegMedicine.AlarmRegMedicine;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class MedicineAlarmAskDto {
+    private long id;
     private String userId;
     private ArrayList<Long> registerId;  //등록된 약 리스트
     private String alarmName; // 알람 이름
@@ -22,4 +24,15 @@ public class MedicineAlarmAskDto {
     private LocalDateTime finishAlarm; // 끝나는 시간
     private int oneTimeCapacity;  //1회 복용 횟수
     private String doseType;  //복용 타입
+
+    public MedicineAlarm toEntity(){
+        return MedicineAlarm.builder()
+                .startAlarm(this.getStartAlarm())
+                .finishAlarm(this.getFinishAlarm())
+                .alarmName(this.getAlarmName())
+                .doseType(this.getDoseType())
+                .dosingPeriod(this.getDosingPeriod())
+                .oneTimeCapacity(this.getOneTimeCapacity())
+                .build();
+    }
 }

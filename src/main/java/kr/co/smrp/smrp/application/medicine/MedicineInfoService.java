@@ -7,13 +7,10 @@ import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.util.PDFTextStripper;
-import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +19,6 @@ import java.util.Optional;
 public class MedicineInfoService {
     private MedicineInfoRepository medicineInfoRepository;
     private MedicineEffectRepository medicineEffectRepository;
-
-
-
     public MedicineInfoService(MedicineInfoRepository medicineInfoRepository, MedicineEffectRepository medicineEffectRepository) throws IOException {
         this.medicineInfoRepository=medicineInfoRepository;
         this.medicineEffectRepository=medicineEffectRepository;
@@ -34,9 +28,9 @@ public class MedicineInfoService {
         MedicineInfo medicineInfo=addMedicineInfoAskDto.toEntity();
         medicineInfoRepository.save(medicineInfo);
     }
-  public List<MedicineInfoRsponDTO> getConMedicineInfo(ConMedicineAskDto conMedicineAskDto){ //약 선태 사항 검색
+  public List<MedicineInfoSmallResPon> getConMedicineInfo(ConMedicineAskDto conMedicineAskDto){ //약 선태 사항 검색
         List<MedicineInfo> medicineInfos=new ArrayList<>();
-        List<MedicineInfoRsponDTO> medicineInfoRsponDTOS=new ArrayList<>();
+        List<MedicineInfoSmallResPon> medicineInfoSmallResPons=new ArrayList<>();
       String num=conMedicineAskDto.getConditionNum();
       String itemName="%"+conMedicineAskDto.getMedicineName()+"%";
       ArrayList<String> line=conMedicineAskDto.getLine();
@@ -99,11 +93,11 @@ public class MedicineInfoService {
               System.out.println("오류");
       }
       for(MedicineInfo medicineInfo : medicineInfos){
-          medicineInfoRsponDTOS.add(new MedicineInfoRsponDTO(medicineInfo));
+          medicineInfoSmallResPons.add(new MedicineInfoSmallResPon(medicineInfo));
       }
-        return medicineInfoRsponDTOS;
+        return medicineInfoSmallResPons;
   } //약 조건 검사
-
+    @Transactional
     public MedicineInfoRsponDTO getMedicineInfo(String itemSeq) { //약 1건 상제 정보 보기
         List<MedicineInfo>  medicineInfo=medicineInfoRepository.findByItemSeq(itemSeq);
         MedicineInfoRsponDTO medicineInfoRsponDTO=new MedicineInfoRsponDTO(medicineInfo.get(0));

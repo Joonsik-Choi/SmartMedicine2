@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class MedicineAlarmResponDto {
+    private Long id;
     private String userInfo;
     @Setter
     private ArrayList<SumMedInfo> regMedicineArrayList;
@@ -27,6 +28,7 @@ public class MedicineAlarmResponDto {
 
 
     public MedicineAlarmResponDto(MedicineAlarm medicineAlarm) {
+        id=medicineAlarm.getId();
         userInfo=medicineAlarm.getUserInfo().getUserId();
         alarmName=medicineAlarm.getAlarmName();
         doseType=medicineAlarm.getDoseType();

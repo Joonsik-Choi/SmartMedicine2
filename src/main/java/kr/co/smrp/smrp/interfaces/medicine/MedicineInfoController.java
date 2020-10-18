@@ -24,8 +24,8 @@ public class MedicineInfoController {
         return ResponseEntity.created(new URI("medicine/add/"+addMedicineInfoAskDto.getItemSeq())).body("{}");
     }
     @PostMapping("medicine/search/condition")
-    public ArrayList<MedicineInfoRsponDTO> getConMedicine(@RequestBody ConMedicineAskDto conMedicineAskDto){ //알약 선택 조건 검사
-       return (ArrayList<MedicineInfoRsponDTO>) medicineInfoService.getConMedicineInfo(conMedicineAskDto);
+    public ArrayList<MedicineInfoSmallResPon> getConMedicine(@RequestBody ConMedicineAskDto conMedicineAskDto){ //알약 선택 조건 검사
+       return (ArrayList<MedicineInfoSmallResPon>) medicineInfoService.getConMedicineInfo(conMedicineAskDto);
     }
     @GetMapping("medicine/search")
     public MedicineInfoRsponDTO getMedicine(@RequestParam String itemSeq){

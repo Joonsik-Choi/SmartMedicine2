@@ -56,15 +56,7 @@ public class RegMedicineService {
             ArrayList<RegMedicine> regMedicines = regMedicineRepository.findAllByUserInfo(userInfo.get()); // 유저가 등록한 알약 등록
             for(RegMedicine regMedicine:regMedicines) {
                 if (regMedicine.getState().equals(BooleanType.BEGIN)) {//알약 삭제를 안한 목록 추출
-                    MedicineInfo medicineInfo = regMedicine.getMedicineInfo();
-                    SumMedInfo sumMedInfo = SumMedInfo.builder()
-                            .id(regMedicine.getId())//간단한 약목록 추출
-                            .itemSeq(medicineInfo.getItemSeq())
-                            .imageUrl(medicineInfo.getItemImage())
-                            .itemName(medicineInfo.getItemName())
-                            .entpName(medicineInfo.getEntpName())
-                            .createdAt(regMedicine.getCreatedAt().toLocalDate())
-                            .build();
+                    SumMedInfo sumMedInfo = new SumMedInfo(regMedicine);
                     sumMedInfos.add(sumMedInfo);
                 }
             }

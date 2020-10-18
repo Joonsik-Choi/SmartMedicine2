@@ -3,6 +3,9 @@ package kr.co.smrp.smrp.dto.medicine;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import lombok.*;
 
+import javax.persistence.Lob;
+import javax.transaction.Transactional;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -28,7 +31,8 @@ public class MedicineInfoRsponDTO {
     private  String etcOtcName;
     private  String formCodeName;
     private  String formula;
-    
+    private String effect;
+    private String usageCapacity;
     public MedicineInfoRsponDTO(MedicineInfo medicineInfo){
         id = medicineInfo.getId();
         this.itemSeq = medicineInfo.getItemSeq();
@@ -49,5 +53,7 @@ public class MedicineInfoRsponDTO {
         this.etcOtcName = medicineInfo.getEtcOtcName();
         this.formCodeName = medicineInfo.getFormCodeName();
         this.formula = medicineInfo.getFormula();
+        this.effect=medicineInfo.getMedicineEffect().getEffect();
+        this.usageCapacity=medicineInfo.getMedicineEffect().getUsageCapacity();
     }
 }
