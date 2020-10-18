@@ -30,7 +30,6 @@ public class RegMedicineService {
             this.userInfoRepository=userInfoRepository;
     }
 
-
     public void addRegMedicine(RegmedicineAskDto regmedicineAskDto) {
         Optional<UserInfo> userInfo=userInfoRepository.findByUserId(regmedicineAskDto.getUserId());
         List<MedicineInfo> medicineInfo=medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());

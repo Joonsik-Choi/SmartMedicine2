@@ -25,7 +25,6 @@ public class MedicineAlarmService {
     private RegMedicineRepository regMedicineRepository;
     private AlarmRegMedicineRepository alarmRegMedicineRepository;
 
-
     public MedicineAlarmService(UserInfoRepository userInfoRepository,
                                 MedicineAlarmRepository medicineAlarmRepository,
                                 RegMedicineRepository regMedicineRepository,

@@ -29,6 +29,5 @@ public class RegMedicineController {
     @DeleteMapping("medicine/register/delete")
     public Message delRegMedicine(@RequestBody RegmedicineAskDto regmedicineAskDto){
         return regMedicineService.deleteRegMedicine(regmedicineAskDto);
-
     }
 }
