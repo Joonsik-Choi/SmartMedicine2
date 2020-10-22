@@ -3,6 +3,7 @@ package kr.co.smrp.smrp.domain.medicine.MedicineAlarm;
 import lombok.*;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Getter
@@ -12,7 +13,10 @@ import javax.persistence.Enumerated;
 @ToString
 @Embeddable
 public class DoseTime {
-    private String morning;
-    private String lunch;
-    private String dinner;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo morning;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo lunch;
+    @Enumerated(EnumType.STRING)
+    private YesOrNo dinner;
 }

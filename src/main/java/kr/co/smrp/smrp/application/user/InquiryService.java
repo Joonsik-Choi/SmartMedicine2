@@ -8,6 +8,7 @@ import kr.co.smrp.smrp.dto.user.InquiryDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -26,5 +27,10 @@ public class InquiryService {
                 .content(inquiryDto.getContent())
                 .build();
                 inquiryRepository.save(inquiry);
+    }
+
+    public ArrayList<Inquiry> getInquiry(String userId) {
+        Optional<UserInfo> userInfo=userInfoRepository.findByUserId(userId);
+        return inquiryRepository.findAllByUserInfo(userInfo.get());
     }
 }
