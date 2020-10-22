@@ -10,11 +10,10 @@ import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
-import kr.co.smrp.smrp.dto.medicine.MedicineAlarmAskDto;
-import kr.co.smrp.smrp.dto.medicine.MedicineAlarmResponDto;
-import kr.co.smrp.smrp.dto.medicine.SumMedInfo;
+import kr.co.smrp.smrp.dto.medicine.Alarm.MedicineAlarmAskDto;
+import kr.co.smrp.smrp.dto.medicine.Alarm.MedicineAlarmResponDto;
+import kr.co.smrp.smrp.dto.medicine.info.SumMedInfo;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

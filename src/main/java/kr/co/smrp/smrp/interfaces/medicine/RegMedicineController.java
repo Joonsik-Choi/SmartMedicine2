@@ -1,9 +1,8 @@
 package kr.co.smrp.smrp.interfaces.medicine;
 import kr.co.smrp.smrp.application.medicine.RegMedicineService;
 import kr.co.smrp.smrp.dto.Message.Message;
-import kr.co.smrp.smrp.dto.Message.ResultCode;
-import kr.co.smrp.smrp.dto.medicine.RegmedicineAskDto;
-import kr.co.smrp.smrp.dto.medicine.SumMedInfo;
+import kr.co.smrp.smrp.dto.medicine.register.RegmedicineAskDto;
+import kr.co.smrp.smrp.dto.medicine.info.SumMedInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

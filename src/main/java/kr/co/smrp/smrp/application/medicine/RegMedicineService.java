@@ -9,8 +9,8 @@ import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
-import kr.co.smrp.smrp.dto.medicine.RegmedicineAskDto;
-import kr.co.smrp.smrp.dto.medicine.SumMedInfo;
+import kr.co.smrp.smrp.dto.medicine.register.RegmedicineAskDto;
+import kr.co.smrp.smrp.dto.medicine.info.SumMedInfo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

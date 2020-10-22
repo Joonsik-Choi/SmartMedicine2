@@ -4,6 +4,8 @@ import kr.co.smrp.smrp.application.medicine.MedicineEffectService;
 import kr.co.smrp.smrp.application.medicine.MedicineInfoService;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.medicine.*;
+import kr.co.smrp.smrp.dto.medicine.effect.MedicineEffectAskDto;
+import kr.co.smrp.smrp.dto.medicine.effect.MedicineEffectTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

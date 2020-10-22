@@ -2,6 +2,7 @@ package kr.co.smrp.smrp.domain.user.userInfo;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import kr.co.smrp.smrp.domain.user.Inquiry.Inquiry;
 import kr.co.smrp.smrp.domain.medicine.MedicineAlarm.MedicineAlarm;
 import kr.co.smrp.smrp.domain.medicine.regMedicine.RegMedicine;
 import lombok.*;
@@ -26,14 +27,18 @@ public class UserInfo {
     private String userPw;
     private String email;
     private String name;
-      @Enumerated(javax.persistence.EnumType.STRING)
+
+    @Enumerated(javax.persistence.EnumType.STRING)
     private Gender gender;
+
     private LocalDate birth;
     private LocalDateTime createdAt;
       @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY )
     private List<RegMedicine> regMedicineList;
       @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY)
     private List<MedicineAlarm> medicineAlarms;
+      @OneToMany(mappedBy = "userInfo")
+    private List<Inquiry> inquiries;
 
    
 }

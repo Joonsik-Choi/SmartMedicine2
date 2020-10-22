@@ -1,19 +1,20 @@
 package kr.co.smrp.smrp.application.medicine;
 
-import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineEffect;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineEffectRepository;
 import kr.co.smrp.smrp.dto.medicine.*;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
+import kr.co.smrp.smrp.dto.medicine.info.AddMedicineInfoAskDto;
+import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoRsponDTO;
+import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoSmallResPon;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MedicineInfoService {

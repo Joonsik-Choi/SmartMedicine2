@@ -7,8 +7,8 @@ import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
 import kr.co.smrp.smrp.dto.medicine.ItemSeq;
-import kr.co.smrp.smrp.dto.medicine.MedicineEffectAskDto;
-import kr.co.smrp.smrp.dto.medicine.MedicineEffectTransfer;
+import kr.co.smrp.smrp.dto.medicine.effect.MedicineEffectAskDto;
+import kr.co.smrp.smrp.dto.medicine.effect.MedicineEffectTransfer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class MedicineEffectService {
             ArrayList<MedicineInfo> medicineInfos=medicineInfoRepository.findByItemList(medicineEffectAskDto.getItemSeq());
             if(medicineInfos.size()==0)continue;
             MedicineEffect medicineEffect=new MedicineEffect(medicineEffectAskDto);
-            medicineEffect.setMedicineInfo(medicineInfos.get(0));
+           // medicineEffect.setMedicineInfo(medicineInfos.get(0));
             medicineEffectRepository.save(medicineEffect);
             if(medicineInfos.size()==1){
                 medicineInfos.get(0).setMedicineEffect(medicineEffect);
@@ -70,7 +70,7 @@ public class MedicineEffectService {
                     .effect(effect)
                     .precautions(precautions)
                     .usageCapacity(usageCapacity)
-                    .medicineInfo(medicineInfos.get(0))
+                   // .medicineInfo(medicineInfos.get(0))
                     .build();
             medicineEffectRepository.save(medicineEffect);
             for(MedicineInfo medicineInfo: medicineInfos){

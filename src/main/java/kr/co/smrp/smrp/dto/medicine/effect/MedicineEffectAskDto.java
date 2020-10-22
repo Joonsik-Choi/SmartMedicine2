@@ -1,4 +1,4 @@
-package kr.co.smrp.smrp.dto.medicine;
+package kr.co.smrp.smrp.dto.medicine.effect;
 
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineEffect;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;

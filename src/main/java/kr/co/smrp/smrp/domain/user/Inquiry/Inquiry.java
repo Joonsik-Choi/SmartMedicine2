@@ -1,4 +1,4 @@
-package kr.co.smrp.smrp.domain;
+package kr.co.smrp.smrp.domain.user.Inquiry;
 
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import lombok.*;
@@ -15,9 +15,11 @@ public class Inquiry {
     @Id
     @GeneratedValue
     @Column(name = "INQUIRY_ID")
-    Long id;
+    private Long id;
     @ManyToOne
-    UserInfo userInfo;
-    String content;
+    @JoinColumn(name = "USER_INFO_ID")
+    private UserInfo userInfo;
+    @Column(length = 500)
+    private String content;
 
 }

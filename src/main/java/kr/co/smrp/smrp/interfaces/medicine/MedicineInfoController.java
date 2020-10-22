@@ -1,15 +1,16 @@
 package kr.co.smrp.smrp.interfaces.medicine;
 
 import kr.co.smrp.smrp.application.medicine.MedicineInfoService;
-import kr.co.smrp.smrp.dto.Message.ResultCode;
 import kr.co.smrp.smrp.dto.medicine.*;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.dto.Message.Message;
+import kr.co.smrp.smrp.dto.medicine.info.AddMedicineInfoAskDto;
+import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoRsponDTO;
+import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoSmallResPon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.net.URI;
 import java.net.URISyntaxException;

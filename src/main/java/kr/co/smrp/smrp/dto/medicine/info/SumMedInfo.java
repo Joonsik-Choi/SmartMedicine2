@@ -1,4 +1,4 @@
-package kr.co.smrp.smrp.dto.medicine;
+package kr.co.smrp.smrp.dto.medicine.info;
 
 import kr.co.smrp.smrp.domain.medicine.regMedicine.RegMedicine;
 import lombok.*;

@@ -4,7 +4,7 @@ package kr.co.smrp.smrp.domain.medicine.medicineInfo;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import kr.co.smrp.smrp.dto.medicine.MedicineEffectAskDto;
+import kr.co.smrp.smrp.dto.medicine.effect.MedicineEffectAskDto;
 import lombok.*;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +24,9 @@ public class MedicineEffect {
     @Column(name = "MEDICINE_EFFECT_ID")
     private Long id;
     @Setter
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEDICINE_ID")
-    private MedicineInfo medicineInfo;
+   //@OneToOne(fetch = FetchType.LAZY)
+   //@JoinColumn(name = "MEDICINE_ID")
+    //private MedicineInfo medicineInfo;
     @Lob
     private String effect;
     @Lob

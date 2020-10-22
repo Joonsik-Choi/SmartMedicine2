@@ -1,4 +1,4 @@
-package kr.co.smrp.smrp.dto.medicine;
+package kr.co.smrp.smrp.dto.medicine.register;
 
 import lombok.*;
 

@@ -1,10 +1,9 @@
 package kr.co.smrp.smrp.interfaces.medicine;
 
 import kr.co.smrp.smrp.application.medicine.MedicineAlarmService;
-import kr.co.smrp.smrp.domain.medicine.MedicineAlarm.MedicineAlarm;
 import kr.co.smrp.smrp.dto.Message.Message;
-import kr.co.smrp.smrp.dto.medicine.MedicineAlarmAskDto;
-import kr.co.smrp.smrp.dto.medicine.MedicineAlarmResponDto;
+import kr.co.smrp.smrp.dto.medicine.Alarm.MedicineAlarmAskDto;
+import kr.co.smrp.smrp.dto.medicine.Alarm.MedicineAlarmResponDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

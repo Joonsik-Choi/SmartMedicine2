@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @org.springframework.stereotype.Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
-    Optional<UserInfo> findByUserIdAndUserPw(java.lang.String userId, java.lang.String passWord);
-    Optional<UserInfo> findByUserId(java.lang.String findUserId);
+    Optional<UserInfo> findByUserIdAndUserPw(String userId, String passWord);
+    Optional<UserInfo> findByUserId(String findUserId);
 }
