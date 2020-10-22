@@ -88,8 +88,9 @@ public class MedicineAlarmService {
     public void medicineAlarmUpdate(MedicineAlarmAskDto medicineAlarmAskDto) { // 알람 수정
         MedicineAlarm medicineAlarm=medicineAlarmRepository.findById(medicineAlarmAskDto.getId()).get();
         ArrayList<AlarmRegMedicine> alarmRegMedicines=new ArrayList<>();
-       deleteAlarmRegMedicine(medicineAlarm); //regAlarmMedicine 삭제
+        deleteAlarmRegMedicine(medicineAlarm); //regAlarmMedicine 삭제
         addAlarmRegMedicine(medicineAlarmAskDto.getRegisterId(), medicineAlarm, alarmRegMedicines); //regAlarmMedicine등록
+        medicineAlarm.update(medicineAlarmAskDto);
         medicineAlarmRepository.save(medicineAlarm);
     }
 public void deleteAlarmRegMedicine(MedicineAlarm medicineAlarm){

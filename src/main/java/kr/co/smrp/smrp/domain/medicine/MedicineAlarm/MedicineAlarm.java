@@ -33,10 +33,18 @@ public class MedicineAlarm {
     private String alarmName;
     private int dosingPeriod;
     @Setter
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startAlarm;
     @Setter
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime finishAlarm;
     private int oneTimeCapacity;
     private String doseType;
-
+    public void update(MedicineAlarmAskDto medicineAlarmAskDto){
+        alarmName=medicineAlarmAskDto.getAlarmName();
+        dosingPeriod=medicineAlarmAskDto.getDosingPeriod();
+        finishAlarm=startAlarm.plusDays(medicineAlarmAskDto.getDosingPeriod());
+        doseType=medicineAlarmAskDto.getDoseType();
+        oneTimeCapacity=medicineAlarmAskDto.getOneTimeCapacity();
+    }
 }
