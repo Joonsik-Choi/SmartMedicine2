@@ -34,4 +34,6 @@ public class UserDto {
         this.regMedicineList = userInfo.getRegMedicineList();
         this.medicineAlarms = userInfo.getMedicineAlarms();
     }
+
+
 }

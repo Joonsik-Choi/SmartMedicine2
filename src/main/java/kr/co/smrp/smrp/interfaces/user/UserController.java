@@ -17,13 +17,13 @@ public class UserController {
             return userService.join(joinUserAskDto);
     }
     @PostMapping({"/user/login"})
-    public Message login(@RequestBody UserIdPwDto userIdPwDto) {
+    public UserDto login(@RequestBody UserIdPwDto userIdPwDto) {
         return userService.login(userIdPwDto);
     }
 
     @GetMapping({"user/findId"})
-    public Message findId(@RequestParam String userId) {
-        return userService.findId(userId);
+    public String findId(@RequestParam String userId, @RequestParam String email) {
+        return userService.findId(userId,email);
     }
 
     @PostMapping({"/user/Info"})

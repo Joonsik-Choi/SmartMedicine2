@@ -22,17 +22,19 @@ public class UserService {
         return Message.builder().resultCode(ResultCode.OK).build();
     }
 
-    public Message login(UserIdPwDto userIdPwDto) {
+    public UserDto login(UserIdPwDto userIdPwDto) {
         Optional<UserInfo> userInfo = userInfoRepository.findByUserIdAndUserPw(userIdPwDto.getUserId(), userIdPwDto.getPassWord());
-        if(userInfo.isPresent())
-            return Message.builder().resultCode(ResultCode.PASS).build();
-        return Message.builder().resultCode(ResultCode.FAIL).build();
+        if(userInfo.isPresent()){
+            return new UserDto(userInfo.get());
+        }
+        return new UserDto();
+
     }
-    public Message findId(String userId) {
-        Optional<UserInfo> userInfo = userInfoRepository.findByUserId(userId);
+    public String findId(String userId, String email) {
+        Optional<UserInfo> userInfo = userInfoRepository.findByUserIdAndEmail(userId,email);
         if(userInfo.isPresent())
-            return Message.builder().resultCode(ResultCode.OK).build();
-        return Message.builder().resultCode(ResultCode.FAIL).build();
+            return userInfo.get().getUserId();
+        return "Fail";
     }
 
     public UserDto getUserInfo(UserIdPwDto userIdPwDto) {
