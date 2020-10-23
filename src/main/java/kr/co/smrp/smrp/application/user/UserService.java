@@ -30,8 +30,8 @@ public class UserService {
         return new UserDto();
 
     }
-    public String findId(String userId, String email) {
-        Optional<UserInfo> userInfo = userInfoRepository.findByUserIdAndEmail(userId,email);
+    public String findId(String name, String email) {
+        Optional<UserInfo> userInfo = userInfoRepository.findByNameAndEmail(name,email);
         if(userInfo.isPresent())
             return userInfo.get().getUserId();
         return "Fail";

@@ -22,8 +22,8 @@ public class UserController {
     }
 
     @GetMapping({"user/findId"})
-    public String findId(@RequestParam String userId, @RequestParam String email) {
-        return userService.findId(userId,email);
+    public String findId(@RequestParam String name, @RequestParam String email) {
+        return userService.findId(name,email);
     }
     @GetMapping({"user/idCheck"})
     public Message findIdCheck(@RequestParam String userId) {
