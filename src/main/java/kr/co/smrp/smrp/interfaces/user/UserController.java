@@ -25,6 +25,10 @@ public class UserController {
     public String findId(@RequestParam String userId, @RequestParam String email) {
         return userService.findId(userId,email);
     }
+    @GetMapping({"user/idCheck"})
+    public Message findId(@RequestParam String userId) {
+        return userService.findIdCheck(userId);
+    }
 
     @PostMapping({"/user/Info"})
     public UserDto getUserInfo(@RequestBody UserIdPwDto userIdPwDto) {

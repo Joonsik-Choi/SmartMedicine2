@@ -47,4 +47,12 @@ public class UserService {
             return UserDto.builder().build();
         }
     }
+
+    public Message findIdCheck(String userId) {
+        Optional<UserInfo> userInfo=userInfoRepository.findByUserId(userId);
+        if(userInfo.isPresent()){
+            return Message.builder().resultCode(ResultCode.FAIL).build();
+        }
+        return Message.builder().resultCode(ResultCode.PASS).build();
+    }
 }
