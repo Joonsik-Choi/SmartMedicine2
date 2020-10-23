@@ -26,7 +26,7 @@ public class UserController {
         return userService.findId(userId,email);
     }
     @GetMapping({"user/idCheck"})
-    public Message findId(@RequestParam String userId) {
+    public Message findIdCheck(@RequestParam String userId) {
         return userService.findIdCheck(userId);
     }
 
