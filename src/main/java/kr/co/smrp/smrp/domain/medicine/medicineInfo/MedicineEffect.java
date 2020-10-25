@@ -23,7 +23,7 @@ public class MedicineEffect {
     @GeneratedValue
     @Column(name = "MEDICINE_EFFECT_ID")
     private Long id;
-    @Setter
+    //@Setter
    //@OneToOne(fetch = FetchType.LAZY)
    //@JoinColumn(name = "MEDICINE_ID")
     //private MedicineInfo medicineInfo;
