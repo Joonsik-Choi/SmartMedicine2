@@ -10,19 +10,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @RestController
 public class TestController {
     @PostMapping("/medicine/uploadImage")
-    public Message uploadImage(@RequestBody MedicineImageDto medicineImageDto){
+    public Message uploadImage(@RequestBody ArrayList<MultipartFile> files){
+        System.out.println("이미지 업로드");
         try {
             String baseDir = "C:\\Users\\wnstl";
-            File front = new File(baseDir + "\\" + medicineImageDto.getPront().getOriginalFilename());
-            File back=new File(baseDir + "\\" + medicineImageDto.getBack().getOriginalFilename());
-            medicineImageDto.getPront().transferTo(front);
-            medicineImageDto.getBack().transferTo(back);
+            File front = new File(baseDir + "\\" + files.get(0).getOriginalFilename());
+            File back=new File(baseDir + "\\" + files.get(1).getOriginalFilename());
+            files.get(0).transferTo(front);
+            files.get(1).transferTo(back);
+
             System.out.println(front.getName()+" " + front.getPath());
             System.out.println(back.getName()+" " + back.getPath());
+            front.createNewFile();
 
         } catch (IOException e) {
             e.printStackTrace();

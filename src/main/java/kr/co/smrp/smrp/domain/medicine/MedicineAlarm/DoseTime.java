@@ -19,4 +19,20 @@ public class DoseTime {
     private YesOrNo lunch;
     @Enumerated(EnumType.STRING)
     private YesOrNo dinner;
+    public int totalDose(){
+        int total=0;
+        if(morning.equals(YesOrNo.Y))total++;
+        if(lunch.equals(YesOrNo.Y))total++;
+        if(dinner.equals(YesOrNo.Y))total++;
+        return total;
+    }
+    public boolean isMorning(){
+        return morning.equals(YesOrNo.Y);
+    }
+    public boolean isLunch(){
+        return lunch.equals(YesOrNo.Y);
+    }
+    public boolean isDinner(){
+        return dinner.equals(YesOrNo.Y);
+    }
 }

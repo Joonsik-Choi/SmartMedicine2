@@ -2,12 +2,15 @@ package kr.co.smrp.smrp.dto.medicine.Alarm;
 
 import kr.co.smrp.smrp.domain.medicine.MedicineAlarm.DoseTime;
 import kr.co.smrp.smrp.domain.medicine.MedicineAlarm.MedicineAlarm;
+import kr.co.smrp.smrp.domain.medicine.alarmList.AlarmList;
+import kr.co.smrp.smrp.dto.medicine.AlarmList.AlarmListDto;
 import kr.co.smrp.smrp.dto.medicine.info.SumMedInfo;
 import lombok.*;
 
 import javax.persistence.Embedded;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -26,6 +29,8 @@ public class MedicineAlarmResponDto {
     @Embedded
     private DoseTime doseTime;
     private String doseType;
+    @Setter
+    private List<AlarmListDto> alarmListList;
 
 
     public MedicineAlarmResponDto(MedicineAlarm medicineAlarm) {

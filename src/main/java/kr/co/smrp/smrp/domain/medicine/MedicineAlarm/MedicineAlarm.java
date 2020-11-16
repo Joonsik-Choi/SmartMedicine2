@@ -2,6 +2,7 @@ package kr.co.smrp.smrp.domain.medicine.MedicineAlarm;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import kr.co.smrp.smrp.domain.medicine.alarmList.AlarmList;
 import kr.co.smrp.smrp.domain.medicine.alarmRegMedicine.AlarmRegMedicine;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import kr.co.smrp.smrp.dto.medicine.Alarm.MedicineAlarmAskDto;
@@ -27,11 +28,15 @@ public class MedicineAlarm {
     @ManyToOne
     @JoinColumn(name = "USER_INFO_ID")
     private UserInfo userInfo;
-    @OneToMany(mappedBy = "medicineAlarm")
     @Setter
+    @OneToMany(mappedBy = "medicineAlarm")
     private List<AlarmRegMedicine> alarmRegMedicines;
     private String alarmName;
     private int dosingPeriod;
+    @Setter
+    @OneToMany(mappedBy = "medicineAlarm") //알람용 클래스
+    private List<AlarmList> alarmLists;
+
     @Setter
     private LocalDateTime startAlarm;
     @Setter
@@ -39,6 +44,7 @@ public class MedicineAlarm {
     @Embedded
     private DoseTime doseTime;
     private String doseType;
+
     public void update(MedicineAlarmAskDto medicineAlarmAskDto){
         alarmName=medicineAlarmAskDto.getAlarmName();
         dosingPeriod=medicineAlarmAskDto.getDosingPeriod();
@@ -46,4 +52,8 @@ public class MedicineAlarm {
         doseType=medicineAlarmAskDto.getDoseType();
        doseTime=medicineAlarmAskDto.getDoseTime();
     }
+    public String toString(){
+        return doseTime.getMorning().toString();
+    }
+
 }

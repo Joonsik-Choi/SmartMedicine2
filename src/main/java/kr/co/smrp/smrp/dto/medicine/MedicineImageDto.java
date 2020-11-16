@@ -1,6 +1,7 @@
 package kr.co.smrp.smrp.dto.medicine;
 
 import lombok.*;
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
@@ -8,6 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Builder
 public class MedicineImageDto {
-    private MultipartFile pront;
-    private MultipartFile back;
+    List<MultipartFile> multipartFileList;
 }
