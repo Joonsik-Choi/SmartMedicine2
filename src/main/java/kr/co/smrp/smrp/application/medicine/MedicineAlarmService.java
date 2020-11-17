@@ -142,10 +142,10 @@ public void addAlarmRegMedicine(ArrayList<Long> registerId, MedicineAlarm medici
         LocalTime currentTime=medicineAlarm.getStartAlarm().toLocalTime();
         LocalTime[] takeTimes=new LocalTime[]{LocalTime.of(7,30),LocalTime.of(12,30),LocalTime.of(19,10)};
         if(medicineAlarm.getDoseType().equals("식전")){
-            for (int i = 0; i <3 ; i++) takeTimes[i].minusMinutes(30); //식전
+            for (int i = 0; i <3 ; i++) takeTimes[i]=takeTimes[i].minusMinutes(30); //식전
         }
         else{
-            for (int i = 0; i <3 ; i++) takeTimes[i].plusMinutes(30); //식후
+            for (int i = 0; i <3 ; i++)  takeTimes[i]=takeTimes[i].plusMinutes(30); //식후
         }
         LocalDate localDate=LocalDate.now();
         int count=medicineAlarm.getDosingPeriod() *medicineAlarm.getDoseTime().totalDose();
