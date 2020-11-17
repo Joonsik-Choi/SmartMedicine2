@@ -31,8 +31,8 @@ public class MedicineAlarmController {
     }
     @PostMapping("medicine/alarm/add")
     public ResponseEntity addMedicineAlarm(@RequestBody MedicineAlarmAskDto medicineAlarmAskDto) throws  URISyntaxException {
-        medicineAlarmService.addMedicineAlarm(medicineAlarmAskDto);
-        return ResponseEntity.created(new URI("medicine/alarm/add/"+medicineAlarmAskDto.getUserId())).body("{ \"resultCode\": \"OK\"}");
+        MedicineAlarmResponDto medicineAlarmResponDto=medicineAlarmService.addMedicineAlarm(medicineAlarmAskDto);
+        return ResponseEntity.created(new URI("medicine/alarm/add/"+medicineAlarmAskDto.getUserId())).body(medicineAlarmResponDto);
     }
     @DeleteMapping("medicine/alarm/delete")
     public Message deleteMedicineAlarm(@RequestParam Long medicineAlarmId){

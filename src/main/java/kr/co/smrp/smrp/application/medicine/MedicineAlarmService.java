@@ -60,7 +60,7 @@ public class MedicineAlarmService {
         }
         return medicineAlarmResponDtos;
     }
-    public void addMedicineAlarm(MedicineAlarmAskDto medicineAlarmAskDto) { //알람 등록
+    public MedicineAlarmResponDto  addMedicineAlarm(MedicineAlarmAskDto medicineAlarmAskDto) { //알람 등록
         Optional<UserInfo> userInfo=userInfoRepository.findByUserId(medicineAlarmAskDto.getUserId());
         MedicineAlarm medicineAlarm=medicineAlarmAskDto.toEntity();
         medicineAlarm.setUserInfo(userInfo.get());
@@ -72,6 +72,14 @@ public class MedicineAlarmService {
         addAlarmRegMedicine(medicineAlarmAskDto.getRegisterId(), medicineAlarm, alarmRegMedicines); //알람 약 관계 추가
         addAlarmList(medicineAlarm);
         medicineAlarmRepository.save(medicineAlarm);
+        MedicineAlarmResponDto medicineAlarmResponDto=new MedicineAlarmResponDto(medicineAlarm);
+        ArrayList<AlarmListDto> alarmListDtos=new ArrayList<>();
+        for(AlarmList alarmList:medicineAlarm.getAlarmLists()){
+            alarmListDtos.add(new AlarmListDto(alarmList));
+        }
+        medicineAlarmResponDto.setAlarmListList(alarmListDtos);
+        return medicineAlarmResponDto;
+
     }
 
     public Message deleteMedicineAlarm(Long medicineAlarmId) {  //알람 삭제
@@ -79,6 +87,7 @@ public class MedicineAlarmService {
         for(AlarmRegMedicine alarmRegMedicine:medicineAlarm.get().getAlarmRegMedicines()){
             alarmRegMedicineRepository.delete(alarmRegMedicine);
         }
+        alarmListRepository.deleteAllByMedicineAlarm(medicineAlarm.get());
         medicineAlarmRepository.deleteById(medicineAlarmId);
         return Message.builder().resultCode(ResultCode.DELETE).build();
     }
