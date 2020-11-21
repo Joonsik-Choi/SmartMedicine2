@@ -6,12 +6,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.transaction.annotation.Transactional;
 public interface MedicineInfoRepository extends JpaRepository<MedicineInfo,Long> {
     @Query(value="select * from MEDICINE_INFO a where a.item_seq = :itemseq", nativeQuery=true)
     ArrayList<MedicineInfo> findByItemList(@Param("itemseq")String itemseq);
 
     List<MedicineInfo> findByItemSeq(String medicineId);
+    List<MedicineInfo> findAllByItemNameContaining(String ItemName);
 
     @Query(value="select * from MEDICINE_INFO a where a.item_name like :itemName", nativeQuery=true)
     ArrayList<MedicineInfo> findByItemNameMethod1(@Param("itemName")String itemName);

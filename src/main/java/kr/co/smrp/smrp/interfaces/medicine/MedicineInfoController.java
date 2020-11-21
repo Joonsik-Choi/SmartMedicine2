@@ -36,10 +36,9 @@ public class MedicineInfoController {
     public Message addMedicineList(@RequestBody ArrayList<MedicineInfo> medicineInfo){
         return medicineInfoService.addList(medicineInfo);
     }
-    @PostMapping("medicine/search")
+    @PostMapping("medicine/searchOCR")
     public ArrayList<MedicineInfoRsponDTO> searchMedicine(@RequestBody String[] s){
-        medicineInfoService.SearchMedicine(s);
-        return new ArrayList<MedicineInfoRsponDTO>();
+        return  medicineInfoService.findMedicineListOCR(s);
     }
     @PostMapping("/medicine/ocr")
     public MedicineInfoRsponDTO findMedicineOcr(@RequestBody String[] medicineLogo){

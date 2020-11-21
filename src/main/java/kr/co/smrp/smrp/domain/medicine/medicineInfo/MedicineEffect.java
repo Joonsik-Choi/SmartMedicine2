@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -33,9 +34,25 @@ public class MedicineEffect {
     private String usageCapacity;
     @Lob
     private String precautions;
+
+    public String getEffect() {
+        return Optional.of(effect).orElse("");
+    }
+
+    public String getUsageCapacity() {
+        return  Optional.of(usageCapacity).orElse("");
+    }
+
+    public String getPrecautions() {
+        return  Optional.of(precautions).orElse("");
+    }
+
     public MedicineEffect(MedicineEffectAskDto medicineEffectAskDto){
-        effect=medicineEffectAskDto.getEffect();
-        usageCapacity=medicineEffectAskDto.getUsageCapacity();
-        precautions=medicineEffectAskDto.getPrecautions();
+        Optional<String> effect= Optional.of(medicineEffectAskDto.getEffect());
+        Optional<String> usageCapacity= Optional.of(medicineEffectAskDto.getEffect());
+        Optional<String> precautions= Optional.of(medicineEffectAskDto.getEffect());
+        this.effect=effect.orElse("");
+        this.usageCapacity=usageCapacity.orElse("");
+        this.precautions=precautions.orElse("");
     }
 }

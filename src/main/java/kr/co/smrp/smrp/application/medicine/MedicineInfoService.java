@@ -1,11 +1,13 @@
 package kr.co.smrp.smrp.application.medicine;
 
+import com.sun.xml.bind.v2.TODO;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineEffectRepository;
 import kr.co.smrp.smrp.dto.medicine.*;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
+import kr.co.smrp.smrp.dto.medicine.Alarm.MedicineAlarmResponDto;
 import kr.co.smrp.smrp.dto.medicine.info.AddMedicineInfoAskDto;
 import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoRsponDTO;
 import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoSmallResPon;
@@ -123,7 +125,102 @@ public class MedicineInfoService {
        }
        return MedicineInfoRsponDTO.builder().build();
     }
+    @Transactional
+    public ArrayList<MedicineInfoRsponDTO> findMedicineListOCR(String[] strings){ //약 봉투 OCR 필터링
+        ArrayList<MedicineInfoRsponDTO> medicineInfoRsponDTOs=new ArrayList<>();
+        char c;
+        //Todo 이전 프로젝트에서 가져왔으므로 수정 요망
+        for(String s: strings){
+            System.out.println("----------------------------->"+ s);
+            StringBuilder stringBuilder=new StringBuilder();
+            for(int i=0;i<s.length();i++){
+                c=s.charAt(i);
+                if(c=='(' || c==')' ||  c==' '){
+                    stringBuilder.append(c);
+                    continue;
+                }
+                else if(c>0&&c<182){
+                    continue;
+                }
+                stringBuilder.append(c);
+            }
+            if(stringBuilder.toString().length()<1){
+                s=" ";
+            }
+            else {
+                s = stringBuilder.toString();
+            }
+            System.out.println("1차 결과 s : "+s+ " 길이 : "+s.length());
+            c=s.charAt(0);
+            if(c>0&&c<182) {
+                for (int i = 0; i < s.length(); i++) {
+                    c = s.charAt(i);
+                    if (c>0&&c<182) {
+                        if(i+1==s.length()){
+                            s="";
+                        }
+                        continue;
+                    }
+                    else {
+                        s = s.substring(i);
+                        System.out.println("수정 전 :"+s);
+                        if (s.indexOf('(') != -1 || s.indexOf(' ') != -1) {
+                            if (s.indexOf('(') != -1) {
+                                s = s.substring(0, s.indexOf('('));
+                            }
+                            if(s.indexOf(' ')!=-1){
+                                s = s.substring(0, s.indexOf(' '));
+                            }
+                        }
+                        System.out.println("수정 후 :"+s);
+                        break;
+                    }
+                }
+            }
+            System.out.println("2차 결과 s : "+s+ " 길이 : "+s.length());
+            if(s.indexOf(' ')!=-1){
+                s=s.substring(0, s.indexOf(' '));
+            }
+            if(s.indexOf('(')!=-1){
+                s=s.substring(0, s.indexOf('('));
+            }
 
+
+            System.out.println("3차 결과 s : "+s+ " 길이 : "+s.length());
+            if( s.length()<3){
+                System.out.println(s+" 문자열 길이 : "+s.length());
+                if(!s.contains("쿨정")) {
+                    continue;
+                }
+                System.out.println("쿨정임");
+
+            }
+            System.out.println("4차 결과 s : "+s+ " 길이 : "+s.length());
+            if(s.equals("일수")){
+                System.out.println("버리는 약이름 :"+ s);
+                continue;
+            }
+            System.out.println("5차 결과 s : "+s+ " 길이 : "+s.length());
+            if(s.length()>9){
+                s=s.substring(0, 8);
+            }
+            System.out.println("6차 결과 s : "+s+ " 길이 : "+s.length());
+            ArrayList<MedicineInfo> medicineInfos= (ArrayList<MedicineInfo>) medicineInfoRepository.findAllByItemNameContaining(s);
+            if(medicineInfos.size()==0){
+                System.out.println("버리는 약이름 : "+ s );
+                continue;
+            }
+            else{
+                System.out.println("찾은 약이름  : "+ s );
+                for(MedicineInfo medicineInfo:medicineInfos){
+                    System.out.println(medicineInfo.getItemName()+" ");
+                    MedicineInfoRsponDTO medicineInfoRsponDTO=new MedicineInfoRsponDTO(medicineInfo);
+                    medicineInfoRsponDTOs.add(medicineInfoRsponDTO);
+                }
+            }
+        }
+        return medicineInfoRsponDTOs;
+    }
     public void SearchMedicine(String[] s) {  // ocr 기능으로 약정보 보내기
         for (String ss: s){
             System.out.println(ss);

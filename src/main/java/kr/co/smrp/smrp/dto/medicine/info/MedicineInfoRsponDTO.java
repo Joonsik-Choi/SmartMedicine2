@@ -1,16 +1,17 @@
 package kr.co.smrp.smrp.dto.medicine.info;
 
+import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineEffect;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import lombok.*;
 
-import javax.persistence.Lob;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Transactional
 public class MedicineInfoRsponDTO {
     private  Long id;
     private  String itemSeq;
@@ -33,6 +34,8 @@ public class MedicineInfoRsponDTO {
     private  String formula;
     private String effect;
     private String usageCapacity;
+    private String precautions;
+
     public MedicineInfoRsponDTO(MedicineInfo medicineInfo){
         id = medicineInfo.getId();
         this.itemSeq = medicineInfo.getItemSeq();
@@ -53,7 +56,15 @@ public class MedicineInfoRsponDTO {
         this.etcOtcName = medicineInfo.getEtcOtcName();
         this.formCodeName = medicineInfo.getFormCodeName();
         this.formula = medicineInfo.getFormula();
-        this.effect=medicineInfo.getMedicineEffect().getEffect();
-        this.usageCapacity=medicineInfo.getMedicineEffect().getUsageCapacity();
+        if(medicineInfo.getMedicineEffect()!=null) {
+            this.effect = medicineInfo.getMedicineEffect().getEffect();
+            this.usageCapacity = medicineInfo.getMedicineEffect().getUsageCapacity();
+            this.precautions=medicineInfo.getMedicineEffect().getPrecautions();
+        }
+        else{
+            effect="";
+            usageCapacity="";
+            precautions="";
+        }
     }
 }
