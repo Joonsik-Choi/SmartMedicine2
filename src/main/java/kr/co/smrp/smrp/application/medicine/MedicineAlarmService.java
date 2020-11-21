@@ -61,8 +61,8 @@ public class MedicineAlarmService {
         return medicineAlarmResponDtos;
     }
     public MedicineAlarmResponDto  addMedicineAlarm(MedicineAlarmAskDto medicineAlarmAskDto) { //알람 등록
-        Optional<UserInfo> userInfo=userInfoRepository.findByUserId(medicineAlarmAskDto.getUserId());
-        MedicineAlarm medicineAlarm=medicineAlarmAskDto.toEntity();
+        Optional<UserInfo> userInfo=userInfoRepository.findByUserId(medicineAlarmAskDto.getUserId());// 사용자 정보 가져오기
+        MedicineAlarm medicineAlarm=medicineAlarmAskDto.toEntity(); //DTO -> Entity로 변경
         medicineAlarm.setUserInfo(userInfo.get());
         medicineAlarm.setStartAlarm(LocalDateTime.now());
         medicineAlarm.setFinishAlarm(LocalDateTime.now().plusDays(medicineAlarmAskDto.getDosingPeriod()));
@@ -72,14 +72,19 @@ public class MedicineAlarmService {
         addAlarmRegMedicine(medicineAlarmAskDto.getRegisterId(), medicineAlarm, alarmRegMedicines); //알람 약 관계 추가
         addAlarmList(medicineAlarm);
         medicineAlarmRepository.save(medicineAlarm);
-        MedicineAlarmResponDto medicineAlarmResponDto=new MedicineAlarmResponDto(medicineAlarm);
-        ArrayList<AlarmListDto> alarmListDtos=new ArrayList<>();
-        for(AlarmList alarmList:medicineAlarm.getAlarmLists()){
+        MedicineAlarmResponDto medicineAlarmResponDto = medicineAlarmAddAlarmList(medicineAlarm);
+        return medicineAlarmResponDto;
+
+    }
+
+    public MedicineAlarmResponDto medicineAlarmAddAlarmList(MedicineAlarm medicineAlarm) {
+        MedicineAlarmResponDto medicineAlarmResponDto = new MedicineAlarmResponDto(medicineAlarm);
+        ArrayList<AlarmListDto> alarmListDtos = new ArrayList<>();
+        for (AlarmList alarmList : medicineAlarm.getAlarmLists()) {
             alarmListDtos.add(new AlarmListDto(alarmList));
         }
         medicineAlarmResponDto.setAlarmListList(alarmListDtos);
         return medicineAlarmResponDto;
-
     }
 
     public Message deleteMedicineAlarm(Long medicineAlarmId) {  //알람 삭제
@@ -93,12 +98,7 @@ public class MedicineAlarmService {
     }
     public MedicineAlarmResponDto getMedicineAlarm(Long medicineAlarmId) {  //단일 알람 출력
         MedicineAlarm medicineAlarm=medicineAlarmRepository.findById(medicineAlarmId).get();
-        MedicineAlarmResponDto medicineAlarmResponDto=new MedicineAlarmResponDto(medicineAlarm);
-        ArrayList<AlarmListDto> alarmListDtos=new ArrayList<>();
-        for(AlarmList alarmList:medicineAlarm.getAlarmLists()){
-            alarmListDtos.add(new AlarmListDto(alarmList));
-        }
-        medicineAlarmResponDto.setAlarmListList(alarmListDtos);
+        MedicineAlarmResponDto medicineAlarmResponDto=medicineAlarmAddAlarmList(medicineAlarm);
         ArrayList<SumMedInfo> regMedicines=new ArrayList<>();
         for(AlarmRegMedicine alarmRegMedicine: medicineAlarm.getAlarmRegMedicines()){
             Optional<RegMedicine> regMedicine=regMedicineRepository.findById(alarmRegMedicine.getRegMedicine().getId());
@@ -110,13 +110,17 @@ public class MedicineAlarmService {
         return medicineAlarmResponDto;
     }
 
-    public void medicineAlarmUpdate(MedicineAlarmAskDto medicineAlarmAskDto) { // 알람 수정
+    public MedicineAlarmResponDto medicineAlarmUpdate(MedicineAlarmAskDto medicineAlarmAskDto) { // 알람 수정
         MedicineAlarm medicineAlarm=medicineAlarmRepository.findById(medicineAlarmAskDto.getId()).get();
         ArrayList<AlarmRegMedicine> alarmRegMedicines=new ArrayList<>();
         deleteAlarmRegMedicine(medicineAlarm); //regAlarmMedicine 삭제
+        alarmListRepository.deleteAllByMedicineAlarm(medicineAlarm);
         addAlarmRegMedicine(medicineAlarmAskDto.getRegisterId(), medicineAlarm, alarmRegMedicines); //regAlarmMedicine등록
         medicineAlarm.update(medicineAlarmAskDto);
+        addAlarmList(medicineAlarm);
+        MedicineAlarmResponDto medicineAlarmResponDto=medicineAlarmAddAlarmList(medicineAlarm);
         medicineAlarmRepository.save(medicineAlarm);
+        return medicineAlarmResponDto;
     }
 public void deleteAlarmRegMedicine(MedicineAlarm medicineAlarm){
     for(AlarmRegMedicine alarmRegMedicine:medicineAlarm.getAlarmRegMedicines()){    //알람 -등록된 약  제거
