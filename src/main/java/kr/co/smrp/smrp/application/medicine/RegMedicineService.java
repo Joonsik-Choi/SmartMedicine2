@@ -9,6 +9,7 @@ import kr.co.smrp.smrp.domain.user.userInfo.UserInfo;
 import kr.co.smrp.smrp.domain.user.userInfo.UserInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
+import kr.co.smrp.smrp.dto.medicine.register.RegMedicineListAskDto;
 import kr.co.smrp.smrp.dto.medicine.register.RegmedicineAskDto;
 import kr.co.smrp.smrp.dto.medicine.info.SumMedInfo;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,36 @@ public class RegMedicineService {
             this.medicineInfoRepository=medicineInfoRepository;
             this.userInfoRepository=userInfoRepository;
     }
+    public void addRegMedicineList(RegMedicineListAskDto regMedicineListAskDto) {
+        Optional<UserInfo> userInfo=userInfoRepository.findByUserId(regMedicineListAskDto.getUserId());
+        if (regMedicineListAskDto.getItemSeq().size() != 0) {
+            for(String itemSeq: regMedicineListAskDto.getItemSeq()){
+                List<MedicineInfo> medicineInfos=medicineInfoRepository.findByItemSeq(itemSeq);
+                if(medicineInfos.size()!=0){
+                    Optional<RegMedicine> regMed=regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo,medicineInfos.get(0));
+                    if(!regMed.isPresent()){
+                        RegMedicine regMedicine = RegMedicine.builder()
+                                .createdAt(LocalDateTime.now())
+                                .userInfo(userInfo.get())
+                                .medicineInfo(medicineInfos.get(0))
+                                .state(BooleanType.BEGIN)
+                                .build();
+                        regMedicineRepository.save(regMedicine);
+                    }
+                    else {
+                        regMed.get().update();
+                        regMedicineRepository.save(regMed.get());
+                    }
+                }
+            }
+        }
 
+
+    }
     public void addRegMedicine(RegmedicineAskDto regmedicineAskDto) {
         Optional<UserInfo> userInfo=userInfoRepository.findByUserId(regmedicineAskDto.getUserId());
         List<MedicineInfo> medicineInfo=medicineInfoRepository.findByItemSeq(regmedicineAskDto.getItemSeq());
-        Optional<RegMedicine> regMed=regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo,medicineInfo.get(0));
+        Optional<RegMedicine> regMed=regMedicineRepository.findAllByUserInfoAndMedicineInfo(userInfo,medicineInfo.get(0)); //중복등록방지지
         if(!regMed.isPresent()){
             RegMedicine regMedicine = RegMedicine.builder()
                     .createdAt(LocalDateTime.now())
