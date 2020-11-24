@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -219,6 +220,7 @@ public class MedicineInfoService {
                 }
             }
         }
+        Collections.sort(medicineInfoRsponDTOs,(o1, o2) -> o1.getItemName().compareTo(o2.getItemName()));
         return medicineInfoRsponDTOs;
     }
     public void SearchMedicine(String[] s) {  // ocr 기능으로 약정보 보내기

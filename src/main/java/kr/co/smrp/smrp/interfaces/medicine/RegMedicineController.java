@@ -20,7 +20,7 @@ public class RegMedicineController {
     public ArrayList<SumMedInfo> getRegMedicines(@RequestParam String userId) {
         return (ArrayList<SumMedInfo>) regMedicineService.getUserRegMedicines(userId);
     }
-    @PostMapping("/medicine/register/addList")
+    @PostMapping("/medicine/register/addList") //사용자 계정에 여러개의 약을 한번에 등록하는  루트
     public ResponseEntity addRegMedicineList(@RequestBody RegMedicineListAskDto regMedicineListAskDto) throws URISyntaxException {
         regMedicineService.addRegMedicineList(regMedicineListAskDto);
         return ResponseEntity.created(new URI("/medicine/register/" + regMedicineListAskDto.getUserId())).body("{ \"resultCode\": \"OK\"}");
