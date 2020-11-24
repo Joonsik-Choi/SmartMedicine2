@@ -1,7 +1,6 @@
 HELP.md
 .gradle
 build/
-src/main/resources/application.yml
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -21,6 +20,7 @@ src/main/resources/application.yml
 *.iml
 *.ipr
 *.log
+*.yml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
