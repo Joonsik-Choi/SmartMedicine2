@@ -14,6 +14,17 @@ public interface MedicineInfoRepository extends JpaRepository<MedicineInfo,Long>
     List<MedicineInfo> findByItemSeq(String medicineId);
     List<MedicineInfo> findAllByItemNameContaining(String ItemName);
 
+    @Query(value="select *  " +
+            "from medicine_info mi " +
+            "where drug_shape =:shape " +
+            " and (color_class1 like CONCAT ('%',:color,'%') or color_class2 like  CONCAT ('%',:color,'%') )" +
+            " and (line_front like  CONCAT ('%',:line_front,'%') AND line_back like  CONCAT ('%',:line_back,'%'))" +
+            " and (print_front like  CONCAT ('%',:print_front,'%') AND print_back  like  CONCAT ('%',:print_back,'%') )" +
+            " order by item_name "
+            +"limit 10 ", nativeQuery=true)
+    ArrayList<MedicineInfo> findByMedicineDeep(@Param("shape")String shape, @Param("color")String color, @Param("line_front")String line_front,
+                                               @Param("line_back")String line_back, @Param("print_front")String print_front,  @Param("print_back")String print_back);
+
     @Query(value="select * from MEDICINE_INFO a where a.item_name like :itemName", nativeQuery=true)
     ArrayList<MedicineInfo> findByItemNameMethod1(@Param("itemName")String itemName);
 

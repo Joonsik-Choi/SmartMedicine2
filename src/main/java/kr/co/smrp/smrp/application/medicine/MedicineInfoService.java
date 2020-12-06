@@ -8,6 +8,7 @@ import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfoRepository;
 import kr.co.smrp.smrp.dto.Message.Message;
 import kr.co.smrp.smrp.dto.Message.ResultCode;
 import kr.co.smrp.smrp.dto.medicine.Alarm.MedicineAlarmResponDto;
+import kr.co.smrp.smrp.dto.medicine.deep.MedicineDeepModelAskDto;
 import kr.co.smrp.smrp.dto.medicine.info.AddMedicineInfoAskDto;
 import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoRsponDTO;
 import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoSmallResPon;
@@ -227,5 +228,22 @@ public class MedicineInfoService {
         for (String ss: s){
             System.out.println(ss);
         }
+    }
+    @Transactional
+    public ArrayList<MedicineInfoRsponDTO> searchDeepMedicine(MedicineDeepModelAskDto medicineDeepModelAskDto) { //딥러닝 모델 검색
+        ArrayList<MedicineInfoRsponDTO> medicineInfoRsponDTOs=new ArrayList<>();
+        String line_front=medicineDeepModelAskDto.getLineFront();
+        String line_back=medicineDeepModelAskDto.getLineBack();
+        String color=medicineDeepModelAskDto.getColor();
+        String print_front=medicineDeepModelAskDto.getPrintFront();
+        String print_back=medicineDeepModelAskDto.getPrintBack();
+        String drug_shape=medicineDeepModelAskDto.getDrugShape();
+        ArrayList<MedicineInfo> medicineInfos=medicineInfoRepository.findByMedicineDeep(drug_shape,color,line_front ,line_back,print_front,print_back);
+        for(MedicineInfo medicineInfo:medicineInfos) {
+            System.out.println(medicineInfo.getItemName() + " ");
+            MedicineInfoRsponDTO medicineInfoRsponDTO = new MedicineInfoRsponDTO(medicineInfo);
+            medicineInfoRsponDTOs.add(medicineInfoRsponDTO);
+        }
+            return  medicineInfoRsponDTOs;
     }
 }

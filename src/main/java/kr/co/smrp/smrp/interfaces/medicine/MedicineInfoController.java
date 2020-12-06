@@ -4,6 +4,7 @@ import kr.co.smrp.smrp.application.medicine.MedicineInfoService;
 import kr.co.smrp.smrp.dto.medicine.*;
 import kr.co.smrp.smrp.domain.medicine.medicineInfo.MedicineInfo;
 import kr.co.smrp.smrp.dto.Message.Message;
+import kr.co.smrp.smrp.dto.medicine.deep.MedicineDeepModelAskDto;
 import kr.co.smrp.smrp.dto.medicine.info.AddMedicineInfoAskDto;
 import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoRsponDTO;
 import kr.co.smrp.smrp.dto.medicine.info.MedicineInfoSmallResPon;
@@ -43,5 +44,9 @@ public class MedicineInfoController {
     @PostMapping("/medicine/ocr")
     public MedicineInfoRsponDTO findMedicineOcr(@RequestBody String[] medicineLogo){
         return medicineInfoService.findMedicineOcr(medicineLogo);
+    }
+    @PostMapping("/medicine/deep")
+    public ArrayList<MedicineInfoRsponDTO> searchDeepMedicine(@RequestBody MedicineDeepModelAskDto medicineDeepModelAskDto){
+        return medicineInfoService.searchDeepMedicine(medicineDeepModelAskDto);
     }
 }
